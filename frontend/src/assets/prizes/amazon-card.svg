@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" fill="none">
+  <defs>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="40%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="goldShine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <radialGradient id="cardGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#eab308" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#eab308" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <circle cx="150" cy="200" r="130" fill="url(#cardGlow)"/>
+
+  <!-- Card Body with 3D tilt perspective -->
+  <g transform="translate(30, 95)">
+    <rect x="0" y="0" width="240" height="150" rx="16" fill="url(#cardGrad)" stroke="#3b82f6" stroke-width="2"/>
+    <rect x="0" y="0" width="240" height="150" rx="16" fill="none" stroke="url(#goldShine)" stroke-width="1.2" opacity="0.8"/>
+    
+    <!-- Chip -->
+    <rect x="25" y="45" width="34" height="26" rx="6" fill="url(#goldShine)"/>
+    <line x1="25" y1="58" x2="59" y2="58" stroke="#713f12" stroke-width="1"/>
+    <line x1="42" y1="45" x2="42" y2="71" stroke="#713f12" stroke-width="1"/>
+
+    <!-- Amazon Text / Glyph -->
+    <text x="215" y="40" font-family="'Plus Jakarta Sans', sans-serif" font-weight="900" font-size="18" fill="#ffffff" text-anchor="end">amazon</text>
+    <path d="M165 46 Q190 56 215 48" stroke="#f59e0b" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- Arrow point on smile -->
+    <polygon points="214,46 218,50 212,51" fill="#f59e0b"/>
+
+    <!-- Gift Card Ribbon Accent -->
+    <text x="25" y="110" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="14" fill="url(#goldShine)" letter-spacing="1">GIFT CARD</text>
+    <text x="25" y="130" font-family="'Courier New', monospace" font-weight="700" font-size="13" fill="#94a3b8" letter-spacing="2">****  ****  2026</text>
+    
+    <text x="215" y="130" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="13" fill="#38bdf8" text-anchor="end">VELOOP REWARDS</text>
+  </g>
+</svg>

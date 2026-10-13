@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" fill="none">
+  <defs>
+    <linearGradient id="watchBand" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="watchCase" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Top Band -->
+  <path d="M100 10 L100 110 L200 110 L200 10 Z" fill="url(#watchBand)"/>
+  <!-- Bottom Band -->
+  <path d="M100 290 L100 390 L200 390 L200 290 Z" fill="url(#watchBand)"/>
+
+  <!-- Watch Chassis Shadow -->
+  <rect x="75" y="95" width="150" height="190" rx="42" fill="#090d16" opacity="0.6"/>
+
+  <!-- Watch Chassis -->
+  <rect x="75" y="90" width="150" height="186" rx="40" fill="#0f172a" stroke="#475569" stroke-width="3"/>
+
+  <!-- Screen Bezel -->
+  <rect x="85" y="100" width="130" height="166" rx="30" fill="#020617"/>
+
+  <!-- Activity Rings -->
+  <g transform="translate(150, 175)">
+    <!-- Move Ring (Red) -->
+    <circle cx="0" cy="0" r="42" stroke="#450a0a" stroke-width="7" fill="none"/>
+    <circle cx="0" cy="0" r="42" stroke="#ef4444" stroke-width="7" fill="none" stroke-dasharray="264" stroke-dashoffset="60" stroke-linecap="round"/>
+    
+    <!-- Exercise Ring (Green) -->
+    <circle cx="0" cy="0" r="32" stroke="#052e16" stroke-width="7" fill="none"/>
+    <circle cx="0" cy="0" r="32" stroke="#22c55e" stroke-width="7" fill="none" stroke-dasharray="200" stroke-dashoffset="40" stroke-linecap="round"/>
+    
+    <!-- Stand Ring (Cyan) -->
+    <circle cx="0" cy="0" r="22" stroke="#083344" stroke-width="7" fill="none"/>
+    <circle cx="0" cy="0" r="22" stroke="#06b6d4" stroke-width="7" fill="none" stroke-dasharray="138" stroke-dashoffset="25" stroke-linecap="round"/>
+  </g>
+
+  <!-- Watch UI Text -->
+  <text x="150" y="130" font-family="'Plus Jakarta Sans', sans-serif" font-size="16" font-weight="800" fill="#f8fafc" text-anchor="middle">10:09</text>
+  <text x="150" y="245" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#38bdf8" text-anchor="middle">72 BPM</text>
+
+  <!-- Digital Crown (Right side) -->
+  <rect x="225" y="120" width="8" height="34" rx="4" fill="#94a3b8" stroke="#475569" stroke-width="1"/>
+  <!-- Side Button -->
+  <rect x="225" y="175" width="6" height="42" rx="3" fill="#64748b"/>
+</svg>

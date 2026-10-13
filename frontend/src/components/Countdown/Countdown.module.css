@@ -1,0 +1,84 @@
+.timerContainer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 8px 16px;
+  border-radius: 14px;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.unitGroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.unitBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 4px 8px;
+  min-width: 38px;
+}
+
+.digits {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #38bdf8;
+  line-height: 1.1;
+}
+
+.unitLabel {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.separator {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #64748b;
+  margin: 0 1px;
+}
+
+.endedBadge {
+  color: #94a3b8;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 576px) {
+  .timerContainer {
+    padding: 6px 10px;
+    gap: 4px;
+  }
+  .digits {
+    font-size: 0.95rem;
+  }
+  .unitBox {
+    min-width: 32px;
+    padding: 3px 6px;
+  }
+}

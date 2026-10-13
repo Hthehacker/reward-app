@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment and secrets (Req #71)
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Production build outputs
+dist/
+build/
+*/dist/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

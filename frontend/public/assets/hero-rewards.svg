@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" fill="none">
+  <defs>
+    <radialGradient id="heroBgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.35"/>
+      <stop offset="70%" stop-color="#3b82f6" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312e81"/>
+      <stop offset="50%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="goldRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="ticketGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient glow backdrop -->
+  <circle cx="250" cy="200" r="180" fill="url(#heroBgGlow)"/>
+
+  <!-- Floating Golden Coin 1 -->
+  <g transform="translate(80, 110) rotate(-15)" filter="url(#softGlow)">
+    <circle cx="25" cy="25" r="24" fill="url(#goldRibbon)"/>
+    <circle cx="25" cy="25" r="18" fill="#ca8a04" stroke="#fef08a" stroke-width="2"/>
+    <text x="25" y="32" font-size="18" font-weight="900" text-anchor="middle" fill="#fef08a" font-family="sans-serif">V</text>
+  </g>
+
+  <!-- Floating Golden Coin 2 -->
+  <g transform="translate(390, 230) rotate(20)" filter="url(#softGlow)">
+    <circle cx="20" cy="20" r="18" fill="url(#goldRibbon)"/>
+    <circle cx="20" cy="20" r="13" fill="#ca8a04" stroke="#fef08a" stroke-width="1.5"/>
+    <text x="20" y="26" font-size="14" font-weight="900" text-anchor="middle" fill="#fef08a" font-family="sans-serif">★</text>
+  </g>
+
+  <!-- Floating Ticket -->
+  <g transform="translate(310, 70) rotate(18)">
+    <rect x="0" y="0" width="130" height="70" rx="8" fill="url(#ticketGrad)" stroke="#93c5fd" stroke-width="2"/>
+    <!-- Cutouts -->
+    <circle cx="0" cy="35" r="8" fill="#0f172a"/>
+    <circle cx="130" cy="35" r="8" fill="#0f172a"/>
+    <line x1="90" y1="8" x2="90" y2="62" stroke="#bfdbfe" stroke-width="2" stroke-dasharray="4 4"/>
+    <text x="45" y="32" fill="#ffffff" font-size="12" font-weight="800" font-family="sans-serif" text-anchor="middle">EXCLUSIVE</text>
+    <text x="45" y="48" fill="#bae6fd" font-size="10" font-weight="600" font-family="sans-serif" text-anchor="middle">PASS #2026</text>
+    <text x="110" y="40" fill="#ffffff" font-size="14" font-weight="900" font-family="sans-serif" text-anchor="middle">WIN</text>
+  </g>
+
+  <!-- Luxury Gift Box Base -->
+  <g transform="translate(140, 160)">
+    <!-- Box Body -->
+    <rect x="20" y="60" width="180" height="130" rx="12" fill="url(#boxGrad)" stroke="#4338ca" stroke-width="2.5"/>
+    <rect x="20" y="60" width="180" height="130" rx="12" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+    
+    <!-- Vertical Gold Ribbon -->
+    <rect x="95" y="60" width="30" height="130" fill="url(#goldRibbon)"/>
+    <line x1="110" y1="60" x2="110" y2="190" stroke="#fef08a" stroke-width="2"/>
+
+    <!-- Horizontal Gold Ribbon -->
+    <rect x="20" y="115" width="180" height="24" fill="url(#goldRibbon)"/>
+    <line x1="20" y1="127" x2="200" y2="127" stroke="#fef08a" stroke-width="2"/>
+
+    <!-- Box Lid -->
+    <rect x="10" y="35" width="200" height="30" rx="6" fill="#3730a3" stroke="#6366f1" stroke-width="2"/>
+    <rect x="95" y="35" width="30" height="30" fill="url(#goldRibbon)"/>
+
+    <!-- 3D Gold Ribbon Bow -->
+    <path d="M110 35 C90 10 50 15 70 35 C85 45 105 38 110 35 Z" fill="url(#goldRibbon)" stroke="#fef08a" stroke-width="1.5"/>
+    <path d="M110 35 C130 10 170 15 150 35 C135 45 115 38 110 35 Z" fill="url(#goldRibbon)" stroke="#fef08a" stroke-width="1.5"/>
+    <circle cx="110" cy="35" r="8" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+  </g>
+
+  <!-- Subtle Sparkles -->
+  <path d="M110 80 Q110 95 95 95 Q110 95 110 110 Q110 95 125 95 Q110 95 110 80 Z" fill="#60a5fa" opacity="0.8"/>
+  <path d="M370 160 Q370 170 360 170 Q370 170 370 180 Q370 170 380 170 Q370 170 370 160 Z" fill="#facc15" opacity="0.9"/>
+  <path d="M250 80 Q250 90 240 90 Q250 90 250 100 Q250 90 260 90 Q250 90 250 80 Z" fill="#e0e7ff" opacity="0.7"/>
+</svg>
