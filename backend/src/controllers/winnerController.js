@@ -1,7 +1,6 @@
 import GiveawayWinner from '../models/GiveawayWinner.js';
 import Giveaway from '../models/Giveaway.js';
 
-// GET /api/giveaways/:id/winners
 export const getGiveawayWinners = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -53,7 +52,6 @@ export const getGiveawayWinners = async (req, res, next) => {
   }
 };
 
-// GET /api/giveaways/previous/winners
 export const getPreviousWinners = async (req, res, next) => {
   try {
     // Get winners belonging to completed/archived giveaways
@@ -95,7 +93,6 @@ export const getPreviousWinners = async (req, res, next) => {
   }
 };
 
-// GET /api/giveaways/ticker
 export const getWinnerTicker = async (req, res, next) => {
   try {
     const recentWinners = await GiveawayWinner.find()

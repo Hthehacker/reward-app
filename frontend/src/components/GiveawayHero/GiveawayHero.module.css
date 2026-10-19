@@ -104,6 +104,18 @@
   transform: scale(1.03);
 }
 
+.heroTicketImg {
+  position: absolute;
+  top: -15px;
+  right: -10px;
+  width: 150px;
+  height: auto;
+  transform: rotate(12deg);
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6));
+  animation: floatTicket 5s ease-in-out infinite alternate;
+  z-index: 3;
+}
+
 .floatingTag {
   position: absolute;
   bottom: 20px;

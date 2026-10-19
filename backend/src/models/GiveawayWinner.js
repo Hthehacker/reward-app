@@ -57,7 +57,6 @@ const giveawayWinnerSchema = new mongoose.Schema(
   }
 );
 
-// Prevent accidental duplicate winner record for the same user and prize in a giveaway
 giveawayWinnerSchema.index({ giveawayId: 1, prizeId: 1, userId: 1 }, { unique: true });
 
 export default mongoose.model('GiveawayWinner', giveawayWinnerSchema);

@@ -57,9 +57,8 @@ const giveawayParticipationSchema = new mongoose.Schema(
   }
 );
 
-// Critical compound unique index guaranteeing 1 participation per user per giveaway event
 giveawayParticipationSchema.index({ userId: 1, giveawayId: 1 }, { unique: true });
-// Index for fraud analysis of multiple accounts on same device
+
 giveawayParticipationSchema.index({ giveawayId: 1, deviceHash: 1 });
 
 export default mongoose.model('GiveawayParticipation', giveawayParticipationSchema);

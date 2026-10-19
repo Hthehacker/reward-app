@@ -6,7 +6,7 @@ import FraudEvent from '../models/FraudEvent.js';
 import { selectWinnersForGiveaway } from '../services/winnerService.js';
 import { seedDatabase } from '../utils/seedData.js';
 
-// POST /api/admin/giveaways/:id/status
+
 export const setGiveawayStatus = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -64,7 +64,7 @@ export const setGiveawayStatus = async (req, res, next) => {
   }
 };
 
-// POST /api/admin/giveaways/:id/select-winners
+
 export const runWinnerSelection = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -99,7 +99,7 @@ export const runWinnerSelection = async (req, res, next) => {
   }
 };
 
-// GET /api/admin/audit-logs
+
 export const getAuditLogs = async (req, res, next) => {
   try {
     const logs = await AuditLog.find().sort({ createdAt: -1 }).limit(50);
@@ -112,7 +112,7 @@ export const getAuditLogs = async (req, res, next) => {
   }
 };
 
-// GET /api/admin/fraud-events
+
 export const getFraudEvents = async (req, res, next) => {
   try {
     const events = await FraudEvent.find().sort({ createdAt: -1 }).limit(50);
@@ -125,7 +125,7 @@ export const getFraudEvents = async (req, res, next) => {
   }
 };
 
-// POST /api/admin/reset-demo
+
 export const resetDemo = async (req, res, next) => {
   try {
     await seedDatabase();

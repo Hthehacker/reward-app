@@ -1,7 +1,8 @@
 import React from 'react';
 import { ArrowRight, Sparkles, Shield, Gift, Trophy } from 'lucide-react';
 import Countdown from '../Countdown/Countdown.jsx';
-import heroVisual from '../../assets/hero-rewards.svg';
+import heroGiftBox from '../../assets/hero-gift-box.webp';
+import heroTicket from '../../assets/hero-ticket.webp';
 import styles from './GiveawayHero.module.css';
 
 export const GiveawayHero = ({ giveaway, onScrollToPrizes, onScrollToHowItWorks }) => {
@@ -80,9 +81,14 @@ export const GiveawayHero = ({ giveaway, onScrollToPrizes, onScrollToHowItWorks 
               <div className={styles.visualCol}>
                 <div className={styles.illustrationContainer}>
                   <img
-                    src={heroVisual}
-                    alt="Giveaway Rewards Vault"
+                    src={heroGiftBox}
+                    alt="Giveaway Rewards Gift Box"
                     className={styles.heroImg}
+                  />
+                  <img
+                    src={heroTicket}
+                    alt="Exclusive Golden Ticket"
+                    className={styles.heroTicketImg}
                   />
 
                   {/* Floating Social Badge */}

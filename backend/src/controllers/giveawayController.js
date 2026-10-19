@@ -2,7 +2,7 @@ import Giveaway from '../models/Giveaway.js';
 import Prize from '../models/Prize.js';
 import { getAuthoritativeGiveaway } from '../services/giveawayService.js';
 
-// GET /api/giveaways/current
+
 export const getCurrentGiveaway = async (req, res, next) => {
   try {
     let giveaway = await Giveaway.findOne({ isCurrent: true }).populate('prizes');
@@ -26,7 +26,7 @@ export const getCurrentGiveaway = async (req, res, next) => {
     }
 
     const now = new Date();
-    // Enforce authoritative time checks
+
     let currentStatus = giveaway.status;
     if (currentStatus === 'ACTIVE' && now > new Date(giveaway.endAt)) {
       currentStatus = 'ENDED';
@@ -44,15 +44,13 @@ export const getCurrentGiveaway = async (req, res, next) => {
   }
 };
 
-// GET /api/giveaways/:idOrSlug
+
 export const getGiveawayById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    // Check if matching a giveaway
     let giveaway = await getAuthoritativeGiveaway(id);
 
-    // If not found by giveawayId or slug, check if id is a prize slug (e.g. iphone-15-pro)
     let matchedPrize = null;
     if (!giveaway) {
       matchedPrize = await Prize.findOne({ slug: id });
@@ -82,7 +80,7 @@ export const getGiveawayById = async (req, res, next) => {
   }
 };
 
-// GET /api/giveaways/previous
+
 export const getPreviousGiveaways = async (req, res, next) => {
   try {
     const previous = await Giveaway.find({
@@ -102,7 +100,7 @@ export const getPreviousGiveaways = async (req, res, next) => {
   }
 };
 
-// GET /api/giveaways/stats
+
 export const getGiveawayStats = async (req, res, next) => {
   try {
     const activeCount = await Giveaway.countDocuments({ status: 'ACTIVE' });

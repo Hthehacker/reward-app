@@ -4,7 +4,7 @@ import Giveaway from '../models/Giveaway.js';
 import Prize from '../models/Prize.js';
 import AuditLog from '../models/AuditLog.js';
 
-// GET /api/giveaways/:id/my-claim
+
 export const getMyClaimStatus = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -65,7 +65,7 @@ export const getMyClaimStatus = async (req, res, next) => {
   }
 };
 
-// POST /api/giveaways/:id/claim
+
 export const submitPrizeClaim = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -83,7 +83,6 @@ export const submitPrizeClaim = async (req, res, next) => {
       });
     }
 
-    // 1. Authoritative check: User MUST be in the winner list for this giveaway
     const winnerRecord = await GiveawayWinner.findOne({
       giveawayId: giveaway.giveawayId,
       userId: user.userId

@@ -6,7 +6,7 @@ import AuditLog from '../models/AuditLog.js';
 import { verifyAndDeductBalance, refundBalance } from '../services/balanceService.js';
 import { analyzeParticipationRisk } from '../services/fraudService.js';
 
-// POST /api/giveaways/:id/join
+
 export const joinGiveaway = async (req, res, next) => {
   const { id } = req.params;
   const { prizeId: requestPrizeId } = req.body;
@@ -269,7 +269,7 @@ export const joinGiveaway = async (req, res, next) => {
   }
 };
 
-// GET /api/giveaways/:id/my-status
+
 export const getMyParticipationStatus = async (req, res, next) => {
   try {
     const { id } = req.params;

@@ -7,7 +7,6 @@ const generateToken = (id) => {
   return jwt.sign({ id }, secret, { expiresIn: '30d' });
 };
 
-// POST /api/auth/login
 export const login = async (req, res, next) => {
   try {
     const { userId, email } = req.body;
@@ -48,7 +47,7 @@ export const login = async (req, res, next) => {
   }
 };
 
-// GET /api/auth/me
+
 export const getMe = async (req, res, next) => {
   try {
     if (!req.user) {
@@ -74,7 +73,6 @@ export const getMe = async (req, res, next) => {
   }
 };
 
-// GET /api/auth/demo-users
 export const getDemoUsers = async (req, res, next) => {
   try {
     const users = await User.find().select('-password').sort({ userId: 1 });
@@ -87,7 +85,7 @@ export const getDemoUsers = async (req, res, next) => {
   }
 };
 
-// POST /api/auth/earn-balance (Simulated activity reward for testing balance top-ups)
+
 export const earnBalance = async (req, res, next) => {
   try {
     const user = req.user;
