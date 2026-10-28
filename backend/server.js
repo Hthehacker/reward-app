@@ -1,3 +1,8 @@
+import dotenv from 'dotenv';
+// Load environment variables from the .env file located in this directory
+dotenv.config({ path: './.env' });
+console.log('DEBUG: MONGO_URI =', process.env.MONGO_URI);
+
 import app from './src/app.js';
 import connectDB from './src/config/db.js';
 import Giveaway from './src/models/Giveaway.js';

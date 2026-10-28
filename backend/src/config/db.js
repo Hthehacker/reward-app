@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const connectDB = async () => {
   try {
-    const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/veloop_rewards';
+    const mongoURI = process.env.MONGO_URI ;    
     const conn = await mongoose.connect(mongoURI);
     console.log(`[MongoDB Connected]: ${conn.connection.host}`);
   } catch (error) {
@@ -10,5 +10,7 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+
+
 
 export default connectDB;
