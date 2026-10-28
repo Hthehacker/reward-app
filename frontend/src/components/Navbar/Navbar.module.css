@@ -1,36 +1,40 @@
 .navbar {
-  background: rgba(7, 9, 14, 0.85);
+  background: rgba(7, 9, 14, 0.9);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(148, 163, 184, 0.12);
   position: sticky;
   top: 0;
   z-index: 1000;
-  padding: 14px 0;
+  padding: clamp(10px, 2vw, 14px) 0;
   transition: all 0.25s ease;
+  width: 100%;
 }
 
 .navContainer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .brandLink {
   display: flex;
   align-items: center;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .logoImg {
-  height: 38px;
+  height: clamp(28px, 4vw, 38px);
   width: auto;
+  object-fit: contain;
 }
 
 .navLinks {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: clamp(16px, 2vw, 24px);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -43,6 +47,7 @@
   text-decoration: none;
   transition: color 0.2s ease;
   position: relative;
+  white-space: nowrap;
 }
 
 .navLink:hover {
@@ -52,19 +57,21 @@
 .rightArea {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: clamp(6px, 1.5vw, 12px);
+  flex-shrink: 0;
 }
 
 .balancePill {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: rgba(19, 25, 38, 0.8);
+  gap: clamp(6px, 1.2vw, 12px);
+  background: rgba(19, 25, 38, 0.85);
   border: 1px solid rgba(148, 163, 184, 0.2);
-  padding: 6px 14px;
+  padding: 5px clamp(8px, 1.5vw, 14px);
   border-radius: 9999px;
-  font-size: 0.82rem;
+  font-size: clamp(0.75rem, 1.8vw, 0.82rem);
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .balanceItem {
@@ -94,14 +101,15 @@
 .userBadge {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: rgba(30, 41, 59, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: 9999px;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #f8fafc;
+  white-space: nowrap;
 }
 
 .userAvatar {
@@ -115,6 +123,7 @@
   font-size: 0.72rem;
   font-weight: 800;
   color: #ffffff;
+  flex-shrink: 0;
 }
 
 .earnQuickBtn {
@@ -123,13 +132,14 @@
   color: #34d399;
   font-size: 0.75rem;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 9999px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 4px;
   transition: all 0.2s ease;
+  min-height: 24px;
 }
 
 .earnQuickBtn:hover {
@@ -137,15 +147,140 @@
   transform: translateY(-1px);
 }
 
+/* Mobile Hamburger Menu Button */
+.menuToggleBtn {
+  display: none;
+  background: rgba(19, 25, 38, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #f8fafc;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.menuToggleBtn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+}
+
+/* Mobile Dropdown Drawer */
+.mobileMenu {
+  display: none;
+  background: rgba(10, 14, 22, 0.98);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 20px 0;
+  animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobileMenuOpen {
+  display: block;
+}
+
+.mobileNavLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileNavLink {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.mobileNavLink:hover {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.mobileUserSection {
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileBalancesList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.mobileBalanceCard {
+  background: rgba(19, 25, 38, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.mobileBalanceVal {
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.mobileBalanceLbl {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* Breakpoint rules */
 @media (max-width: 991px) {
   .navLinks {
     display: none;
   }
+  .menuToggleBtn {
+    display: inline-flex;
+  }
 }
 
 @media (max-width: 640px) {
-  .balancePill .divider:nth-child(n+3),
-  .balancePill .balanceItem:nth-child(n+4) {
+  /* On mobile <= 640px hide secondary currencies in top pill to keep it compact */
+  .balancePill .divider,
+  .balancePill .balanceItem:nth-child(n+3),
+  .balancePill .earnQuickBtn {
     display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .userBadge span {
+    display: none;
+  }
+  .userBadge {
+    padding: 4px;
+    border-radius: 50%;
   }
 }

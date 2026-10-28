@@ -1,15 +1,15 @@
 .statsSection {
-  padding: 10px 0 50px 0;
+  padding: 10px 0 clamp(30px, 4vw, 50px) 0;
 }
 
 .statCard {
   background: rgba(19, 25, 38, 0.7);
   border: 1px solid rgba(148, 163, 184, 0.12);
-  border-radius: 20px;
-  padding: 22px 24px;
+  border-radius: clamp(14px, 2.5vw, 20px);
+  padding: clamp(14px, 2.5vw, 22px) clamp(12px, 2.5vw, 24px);
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: clamp(10px, 2vw, 16px);
   box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.5);
   transition: transform 0.2s ease, border-color 0.2s ease;
   height: 100%;
@@ -21,9 +21,9 @@
 }
 
 .iconWrap {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: clamp(38px, 6vw, 48px);
+  height: clamp(38px, 6vw, 48px);
+  border-radius: clamp(10px, 2vw, 14px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,40 +57,43 @@
 .info {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .title {
-  font-size: 0.8rem;
+  font-size: clamp(0.68rem, 1.8vw, 0.8rem);
   font-weight: 600;
   color: #94a3b8;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .value {
-  font-size: 1.5rem;
+  font-size: clamp(1.15rem, 3vw, 1.5rem);
   font-weight: 800;
   color: #f8fafc;
   line-height: 1.2;
 }
 
 .subtext {
-  font-size: 0.75rem;
+  font-size: clamp(0.64rem, 1.6vw, 0.75rem);
   color: #64748b;
   margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .statCard {
-    padding: 16px;
-    gap: 12px;
-  }
-  .value {
-    font-size: 1.25rem;
-  }
-  .iconWrap {
-    width: 40px;
-    height: 40px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+    gap: 8px;
   }
 }

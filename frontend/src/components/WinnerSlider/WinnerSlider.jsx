@@ -33,8 +33,7 @@ export const WinnerSlider = () => {
   return (
     <div className={styles.tickerWrapper}>
       <div className={styles.liveTag}>
-        <Sparkles size={13} />
-        RECENT WINNERS
+        <h6>Recent winner</h6>
       </div>
       <div className={styles.scrollTrack}>
         {displayItems.map((item, idx) => (

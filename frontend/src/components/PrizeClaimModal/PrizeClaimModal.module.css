@@ -8,37 +8,38 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: clamp(10px, 2.5vw, 20px);
 }
 
 .modalCard {
   background: radial-gradient(circle at 50% 20%, rgba(30, 27, 75, 0.9) 0%, rgba(13, 17, 26, 0.98) 75%);
   border: 1px solid rgba(245, 158, 11, 0.35);
-  border-radius: 24px;
+  border-radius: clamp(18px, 3vw, 24px);
   max-width: 540px;
   width: 100%;
-  padding: 32px;
+  padding: clamp(18px, 4vw, 32px);
   position: relative;
   box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 40px rgba(245, 158, 11, 0.15);
-  max-height: 90vh;
+  max-height: min(90vh, 750px);
   overflow-y: auto;
 }
 
 .closeBtn {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: clamp(12px, 2.5vw, 20px);
+  right: clamp(12px, 2.5vw, 20px);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #94a3b8;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  z-index: 10;
 }
 
 .closeBtn:hover {
@@ -47,13 +48,13 @@
 }
 
 .headerArea {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
 .celebrateIcon {
-  width: 60px;
-  height: 60px;
+  width: clamp(48px, 8vw, 60px);
+  height: clamp(48px, 8vw, 60px);
   border-radius: 50%;
   background: rgba(245, 158, 11, 0.15);
   border: 1px solid rgba(245, 158, 11, 0.4);
@@ -61,11 +62,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px auto;
+  margin: 0 auto 14px auto;
 }
 
 .title {
-  font-size: 1.6rem;
+  font-size: clamp(1.3rem, 3.5vw, 1.6rem);
   font-weight: 800;
   color: #ffffff;
   margin-bottom: 4px;
@@ -73,7 +74,7 @@
 
 .prizeWonText {
   color: #38bdf8;
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
   font-weight: 700;
 }
 
@@ -81,11 +82,11 @@
   background: rgba(15, 23, 42, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
-  padding: 14px 18px;
+  padding: 12px 16px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .stripItem {
@@ -94,25 +95,25 @@
 }
 
 .stripLabel {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: #64748b;
   text-transform: uppercase;
   font-weight: 700;
 }
 
 .stripValue {
-  font-size: 0.88rem;
+  font-size: clamp(0.8rem, 1.8vw, 0.88rem);
   color: #f8fafc;
   font-weight: 700;
 }
 
 .formGroup {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .label {
   display: block;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: #cbd5e1;
   margin-bottom: 6px;
@@ -123,10 +124,11 @@
   background: rgba(15, 23, 42, 0.7);
   border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 12px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   color: #ffffff;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   transition: border-color 0.2s ease;
+  min-height: 42px;
 }
 
 .input:focus {
@@ -136,7 +138,7 @@
 
 .submitBtn {
   width: 100%;
-  padding: 14px;
+  padding: 12px;
   border-radius: 14px;
   font-weight: 800;
   font-size: 1rem;
@@ -151,6 +153,7 @@
   justify-content: center;
   gap: 8px;
   transition: all 0.2s ease;
+  min-height: 46px;
 }
 
 .submitBtn:hover:not(:disabled) {
@@ -168,11 +171,19 @@
 
 .trackingCode {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   background: rgba(0, 0, 0, 0.4);
   padding: 6px 12px;
   border-radius: 8px;
   color: #34d399;
   display: inline-block;
   margin-top: 10px;
+  word-break: break-all;
+}
+
+@media (max-width: 420px) {
+  .verificationStrip {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
 }

@@ -4,12 +4,14 @@
   gap: 8px;
   background: rgba(15, 23, 42, 0.6);
   border: 1px solid rgba(56, 189, 248, 0.2);
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 14px;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 
 .label {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #94a3b8;
   text-transform: uppercase;
@@ -17,13 +19,15 @@
   margin-right: 4px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
+  white-space: nowrap;
 }
 
 .unitGroup {
   display: flex;
   align-items: center;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .unitBox {
@@ -33,20 +37,20 @@
   background: rgba(30, 41, 59, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
-  padding: 4px 8px;
-  min-width: 38px;
+  padding: 4px 7px;
+  min-width: 36px;
 }
 
 .digits {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 800;
   color: #38bdf8;
   line-height: 1.1;
 }
 
 .unitLabel {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 600;
   color: #64748b;
   text-transform: uppercase;
@@ -54,7 +58,7 @@
 }
 
 .separator {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 800;
   color: #64748b;
   margin: 0 1px;
@@ -69,16 +73,35 @@
   gap: 6px;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 480px) {
   .timerContainer {
     padding: 6px 10px;
-    gap: 4px;
+    gap: 6px;
+  }
+  .unitBox {
+    min-width: 32px;
+    padding: 3px 5px;
   }
   .digits {
     font-size: 0.95rem;
   }
+  .unitLabel {
+    font-size: 0.58rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .timerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 6px 8px;
+  }
   .unitBox {
-    min-width: 32px;
-    padding: 3px 6px;
+    min-width: 28px;
+    padding: 2px 4px;
+  }
+  .digits {
+    font-size: 0.88rem;
   }
 }

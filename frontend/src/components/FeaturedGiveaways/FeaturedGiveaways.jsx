@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Gift, Sparkles } from 'lucide-react';
-import PrizeCard from '../PrizeCard/PrizeCard.jsx';
+import PrizeCard from '../ParticipationModal/PrizeCard/PrizeCard.jsx';
 import styles from './FeaturedGiveaways.module.css';
 
 export const FeaturedGiveaways = ({ prizes = [], giveawayStatus = 'ACTIVE' }) => {

@@ -168,7 +168,7 @@ export const PrizeClaimModal = ({ isOpen, onClose, winnerRecord, giveawayTitle, 
                 </div>
 
                 <div className="row g-2">
-                  <div className="col-5">
+                  <div className="col-12 col-sm-5">
                     <div className={styles.formGroup}>
                       <label className={styles.label}>City</label>
                       <input
@@ -181,7 +181,7 @@ export const PrizeClaimModal = ({ isOpen, onClose, winnerRecord, giveawayTitle, 
                       />
                     </div>
                   </div>
-                  <div className="col-4">
+                  <div className="col-6 col-sm-4">
                     <div className={styles.formGroup}>
                       <label className={styles.label}>State</label>
                       <input
@@ -194,7 +194,7 @@ export const PrizeClaimModal = ({ isOpen, onClose, winnerRecord, giveawayTitle, 
                       />
                     </div>
                   </div>
-                  <div className="col-3">
+                  <div className="col-6 col-sm-3">
                     <div className={styles.formGroup}>
                       <label className={styles.label}>PIN Code</label>
                       <input

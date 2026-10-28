@@ -1,20 +1,21 @@
 .floatingBar {
   position: fixed;
-  bottom: 16px;
-  right: 16px;
+  bottom: clamp(10px, 2.5vw, 16px);
+  right: clamp(10px, 2.5vw, 16px);
   z-index: 9999;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  max-width: calc(100vw - 20px);
 }
 
 .toggleBtn {
   background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
   border: 1px solid rgba(56, 189, 248, 0.4);
   color: #38bdf8;
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 9999px;
-  font-size: 0.82rem;
+  font-size: clamp(0.75rem, 1.8vw, 0.82rem);
   font-weight: 800;
   cursor: pointer;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(56, 189, 248, 0.2);
@@ -22,6 +23,7 @@
   align-items: center;
   gap: 8px;
   transition: all 0.2s ease;
+  min-height: 40px;
 }
 
 .toggleBtn:hover {
@@ -36,11 +38,14 @@
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(56, 189, 248, 0.3);
   border-radius: 20px;
-  padding: 20px;
-  width: 330px;
+  padding: clamp(14px, 3vw, 20px);
+  width: min(320px, calc(100vw - 24px));
+  max-width: 100%;
   margin-bottom: 10px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
   animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 @keyframes slideUp {
@@ -83,6 +88,7 @@
   font-weight: 600;
   margin-bottom: 14px;
   cursor: pointer;
+  min-height: 40px;
 }
 
 .selectInput:focus {
@@ -103,10 +109,11 @@
   color: #94a3b8;
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 6px;
+  padding: 8px 4px;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-height: 36px;
 }
 
 .statusBtn:hover {
@@ -131,10 +138,11 @@
   color: #cbd5e1;
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 6px;
+  padding: 8px 4px;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-height: 36px;
 }
 
 .miniBtn:hover {

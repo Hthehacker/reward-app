@@ -1,8 +1,8 @@
 .card {
   background: linear-gradient(180deg, rgba(19, 25, 38, 0.9) 0%, rgba(13, 17, 26, 0.98) 100%);
   border: 1px solid rgba(148, 163, 184, 0.15);
-  border-radius: 24px;
-  padding: 24px;
+  border-radius: clamp(18px, 3vw, 24px);
+  padding: clamp(16px, 3.5vw, 24px);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -22,7 +22,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .positionBadge {
@@ -54,24 +54,24 @@
 
 .imageWrap {
   width: 100%;
-  height: 190px;
+  height: clamp(140px, 20vw, 190px);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: clamp(14px, 2vw, 20px);
   position: relative;
 }
 
 .prizeImg {
   max-width: 100%;
-  max-height: 180px;
+  max-height: clamp(130px, 18vw, 180px);
   object-fit: contain;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6));
 }
 
 .card:hover .prizeImg {
-  transform: scale(1.06) translateY(-4px);
+  transform: scale(1.05) translateY(-3px);
 }
 
 .contentBody {
@@ -81,7 +81,7 @@
 }
 
 .prizeName {
-  font-size: 1.25rem;
+  font-size: clamp(1.1rem, 2.5vw, 1.25rem);
   font-weight: 800;
   color: #ffffff;
   margin-bottom: 6px;
@@ -89,10 +89,10 @@
 }
 
 .description {
-  font-size: 0.85rem;
+  font-size: clamp(0.82rem, 1.8vw, 0.86rem);
   color: #94a3b8;
   line-height: 1.5;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   flex-grow: 1;
 }
 
@@ -104,7 +104,9 @@
   background: rgba(15, 23, 42, 0.6);
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.04);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .metaItem {
@@ -136,14 +138,15 @@
 
 .joinBtn {
   width: 100%;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px;
+  padding: 10px 16px;
   border-radius: 14px;
   font-weight: 700;
-  font-size: 0.92rem;
+  font-size: clamp(0.85rem, 2vw, 0.92rem);
   background: linear-gradient(135deg, rgba(2, 132, 199, 0.2) 0%, rgba(37, 99, 235, 0.2) 100%);
   border: 1px solid rgba(56, 189, 248, 0.35);
   color: #38bdf8;
@@ -157,4 +160,18 @@
   color: #ffffff;
   border-color: transparent;
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .prizeImg,
+  .joinBtn {
+    transition: none;
+  }
+  .card:hover {
+    transform: none;
+  }
+  .card:hover .prizeImg {
+    transform: none;
+  }
 }

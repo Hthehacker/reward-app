@@ -6,12 +6,12 @@ import {
   getFraudEvents,
   resetDemo
 } from '../controllers/adminGiveawayController.js';
-import { optionalAuth } from '../middleware/authMiddleware.js';
+import { optionalAuth, adminOnly } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/giveaways/:id/status', optionalAuth, setGiveawayStatus);
-router.post('/giveaways/:id/select-winners', optionalAuth, runWinnerSelection);
+router.post('/giveaways/:id/status', optionalAuth,adminOnly, setGiveawayStatus);
+router.post('/giveaways/:id/select-winners', optionalAuth,adminOnly, runWinnerSelection);
 router.get('/audit-logs', optionalAuth, getAuditLogs);
 router.get('/fraud-events', optionalAuth, getFraudEvents);
 router.post('/reset-demo', resetDemo);

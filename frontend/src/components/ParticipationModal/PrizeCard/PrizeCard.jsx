@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Trophy, Users, Clock, Coins, Zap } from 'lucide-react';
 import styles from './PrizeCard.module.css';
 
-export const PrizeCard = ({ prize, giveawayStatus = 'ACTIVE', participantsCount = '2.3K+' }) => {
+export const PrizeCard = ({ prize, giveawayStatus = 'ACTIVE', participantsCount = '1.5K+' }) => {
   if (!prize) return null;
 
   const isFirstPrize = prize.position?.toLowerCase().includes('1st');

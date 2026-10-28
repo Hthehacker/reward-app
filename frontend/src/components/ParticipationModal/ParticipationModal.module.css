@@ -8,35 +8,38 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: clamp(10px, 2.5vw, 20px);
 }
 
 .modalCard {
   background: radial-gradient(circle at 50% 10%, rgba(30, 27, 75, 0.9) 0%, rgba(13, 17, 26, 0.98) 80%);
   border: 1px solid rgba(56, 189, 248, 0.35);
-  border-radius: 24px;
+  border-radius: clamp(18px, 3vw, 24px);
   max-width: 480px;
   width: 100%;
-  padding: 32px;
+  padding: clamp(18px, 4vw, 32px);
   position: relative;
   box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 30px rgba(56, 189, 248, 0.15);
+  max-height: min(90vh, 700px);
+  overflow-y: auto;
 }
 
 .closeBtn {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: clamp(12px, 2.5vw, 18px);
+  right: clamp(12px, 2.5vw, 18px);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #94a3b8;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  z-index: 10;
 }
 
 .closeBtn:hover {
@@ -46,18 +49,18 @@
 
 .header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .title {
-  font-size: 1.45rem;
+  font-size: clamp(1.25rem, 3vw, 1.45rem);
   font-weight: 800;
   color: #ffffff;
   margin-bottom: 6px;
 }
 
 .prizeHighlight {
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
   color: #38bdf8;
   font-weight: 700;
 }
@@ -66,18 +69,19 @@
   background: rgba(15, 23, 42, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
-  padding: 18px 20px;
+  padding: clamp(14px, 2.5vw, 18px) clamp(14px, 2.5vw, 20px);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 18px;
 }
 
 .ledgerRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: clamp(0.82rem, 1.8vw, 0.9rem);
+  gap: 8px;
 }
 
 .label {
@@ -108,12 +112,12 @@
   color: #64748b;
   text-align: center;
   line-height: 1.5;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .btnRow {
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 .cancelBtn {
@@ -126,6 +130,7 @@
   color: #cbd5e1;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-height: 44px;
 }
 
 .cancelBtn:hover {
@@ -148,6 +153,7 @@
   justify-content: center;
   gap: 8px;
   transition: all 0.2s ease;
+  min-height: 44px;
 }
 
 .confirmBtn:hover:not(:disabled) {
@@ -167,8 +173,8 @@
 }
 
 .successIcon {
-  width: 68px;
-  height: 68px;
+  width: clamp(56px, 10vw, 68px);
+  height: clamp(56px, 10vw, 68px);
   border-radius: 50%;
   background: rgba(16, 185, 129, 0.15);
   border: 1px solid rgba(16, 185, 129, 0.4);
@@ -176,7 +182,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 18px auto;
+  margin: 0 auto 16px auto;
   animation: popIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -186,7 +192,7 @@
 }
 
 .successTitle {
-  font-size: 1.6rem;
+  font-size: clamp(1.35rem, 3.5vw, 1.6rem);
   font-weight: 900;
   color: #ffffff;
   margin-bottom: 6px;
@@ -194,7 +200,19 @@
 
 .successMsg {
   color: #94a3b8;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
   line-height: 1.5;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 400px) {
+  .btnRow {
+    flex-direction: column-reverse;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .successIcon {
+    animation: none;
+  }
 }

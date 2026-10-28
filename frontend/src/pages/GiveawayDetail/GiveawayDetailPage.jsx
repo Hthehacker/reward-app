@@ -146,7 +146,19 @@ export const GiveawayDetailPage = () => {
         {/* Hero Card for Prize (Req #81 & #83) */}
         <div className={styles.heroCard}>
           <div className="row align-items-center">
-            <div className="col-lg-7">
+            {/* Visual on mobile appears FIRST (order-1 order-lg-2) */}
+            <div className="col-lg-5 order-1 order-lg-2">
+              <div className={styles.prizeVisualWrap}>
+                <img
+                  src={prize.image}
+                  alt={prize.name}
+                  className={styles.prizeVisual}
+                />
+              </div>
+            </div>
+
+            {/* Giveaway Info on mobile appears SECOND (order-2 order-lg-1) */}
+            <div className="col-lg-7 order-2 order-lg-1">
               <div className={styles.badgeRow}>
                 <div className="badge-exclusive">
                   <Sparkles size={13} />
@@ -167,16 +179,6 @@ export const GiveawayDetailPage = () => {
                   />
                 </div>
               )}
-            </div>
-
-            <div className="col-lg-5">
-              <div className={styles.prizeVisualWrap}>
-                <img
-                  src={prize.image}
-                  alt={prize.name}
-                  className={styles.prizeVisual}
-                />
-              </div>
             </div>
           </div>
         </div>

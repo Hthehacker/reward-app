@@ -1,32 +1,33 @@
 .section {
-  padding: 70px 0;
+  padding: clamp(40px, 6vw, 70px) 0;
   position: relative;
   background: radial-gradient(circle at 50% 50%, rgba(30, 27, 75, 0.25) 0%, transparent 70%);
 }
 
 .headerWrap {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: clamp(30px, 4vw, 50px);
 }
 
 .title {
-  font-size: 2.3rem;
+  font-size: clamp(1.65rem, 4vw, 2.3rem);
   font-weight: 900;
   color: #ffffff;
   margin-bottom: 12px;
 }
 
 .subtitle {
-  font-size: 1.05rem;
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
   color: #94a3b8;
   max-width: 580px;
   margin: 0 auto;
+  line-height: 1.55;
 }
 
 .timelineGrid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
+  gap: 16px;
   position: relative;
 }
 
@@ -34,7 +35,7 @@
   background: rgba(19, 25, 38, 0.7);
   border: 1px solid rgba(148, 163, 184, 0.12);
   border-radius: 20px;
-  padding: 24px 20px;
+  padding: clamp(18px, 3vw, 24px) clamp(14px, 2.5vw, 20px);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -51,7 +52,7 @@
   font-size: 0.85rem;
   font-weight: 800;
   color: #38bdf8;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .iconWrap {
@@ -64,30 +65,49 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+  flex-shrink: 0;
 }
 
 .stepHeading {
-  font-size: 1.05rem;
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
   font-weight: 700;
   color: #ffffff;
   margin-bottom: 8px;
 }
 
 .stepDesc {
-  font-size: 0.82rem;
+  font-size: clamp(0.8rem, 1.6vw, 0.85rem);
   color: #94a3b8;
   line-height: 1.5;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
   .timelineGrid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
+  .timelineGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
   .timelineGrid {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timelineCard {
+    transition: none;
+  }
+  .timelineCard:hover {
+    transform: none;
   }
 }

@@ -8,43 +8,52 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: clamp(10px, 2.5vw, 20px);
 }
 
 .modalCard {
   background: radial-gradient(circle at 50% 10%, rgba(30, 27, 75, 0.9) 0%, rgba(13, 17, 26, 0.98) 80%);
   border: 1px solid rgba(56, 189, 248, 0.35);
-  border-radius: 24px;
+  border-radius: clamp(18px, 3vw, 24px);
   max-width: 480px;
   width: 100%;
-  padding: 32px;
+  padding: clamp(18px, 4vw, 32px);
   position: relative;
   box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9);
+  max-height: min(90vh, 650px);
+  overflow-y: auto;
 }
 
 .closeBtn {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: clamp(12px, 2.5vw, 18px);
+  right: clamp(12px, 2.5vw, 18px);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #94a3b8;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .title {
-  font-size: 1.45rem;
+  font-size: clamp(1.25rem, 3vw, 1.45rem);
   font-weight: 800;
   color: #ffffff;
   margin-bottom: 6px;
@@ -52,7 +61,8 @@
 
 .sub {
   color: #94a3b8;
-  font-size: 0.9rem;
+  font-size: clamp(0.85rem, 1.8vw, 0.9rem);
+  line-height: 1.5;
 }
 
 .taskList {
@@ -65,7 +75,7 @@
   background: rgba(15, 23, 42, 0.7);
   border: 1px solid rgba(148, 163, 184, 0.15);
   border-radius: 16px;
-  padding: 16px;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -75,10 +85,11 @@
 .taskInfo {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .taskTitle {
-  font-size: 0.92rem;
+  font-size: clamp(0.85rem, 2vw, 0.92rem);
   font-weight: 700;
   color: #f8fafc;
 }
@@ -87,12 +98,13 @@
   font-size: 0.8rem;
   font-weight: 700;
   color: #38bdf8;
+  margin-top: 2px;
 }
 
 .claimBtn {
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 10px;
-  font-size: 0.82rem;
+  font-size: clamp(0.75rem, 1.8vw, 0.82rem);
   font-weight: 700;
   background: rgba(56, 189, 248, 0.15);
   border: 1px solid rgba(56, 189, 248, 0.35);
@@ -100,9 +112,23 @@
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
+  min-height: 38px;
+  flex-shrink: 0;
 }
 
 .claimBtn:hover {
   background: #0284c7;
   color: #ffffff;
+}
+
+@media (max-width: 380px) {
+  .taskItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .claimBtn {
+    width: 100%;
+    text-align: center;
+  }
 }

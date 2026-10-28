@@ -1,47 +1,51 @@
 .section {
-  padding: 60px 0;
+  padding: clamp(36px, 5vw, 60px) 0;
   position: relative;
 }
 
 .headerWrap {
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: clamp(24px, 3.5vw, 36px);
 }
 
 .title {
-  font-size: 2.3rem;
+  font-size: clamp(1.65rem, 4vw, 2.3rem);
   font-weight: 900;
   color: #ffffff;
   margin-bottom: 12px;
 }
 
 .subtitle {
-  font-size: 1.05rem;
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
   color: #94a3b8;
   max-width: 580px;
   margin: 0 auto;
+  line-height: 1.55;
 }
 
 .tabControls {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 32px;
+  gap: 10px;
+  margin-bottom: clamp(20px, 3vw, 32px);
+  flex-wrap: wrap;
 }
 
 .tabBtn {
   background: rgba(19, 25, 38, 0.7);
   border: 1px solid rgba(148, 163, 184, 0.15);
   color: #94a3b8;
-  font-size: 0.95rem;
+  font-size: clamp(0.82rem, 2vw, 0.95rem);
   font-weight: 700;
-  padding: 10px 24px;
+  padding: 10px clamp(14px, 2.5vw, 24px);
   border-radius: 9999px;
   cursor: pointer;
   transition: all 0.2s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  min-height: 44px;
 }
 
 .tabBtnActive {
@@ -55,26 +59,26 @@
   background: rgba(19, 25, 38, 0.75);
   border: 1px dashed rgba(56, 189, 248, 0.35);
   border-radius: 20px;
-  padding: 48px 30px;
+  padding: clamp(28px, 5vw, 48px) clamp(16px, 3vw, 30px);
   text-align: center;
   max-width: 650px;
   margin: 0 auto;
 }
 
 .noticeIcon {
-  width: 56px;
-  height: 56px;
+  width: clamp(48px, 8vw, 56px);
+  height: clamp(48px, 8vw, 56px);
   border-radius: 50%;
   background: rgba(56, 189, 248, 0.1);
   color: #38bdf8;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 18px auto;
+  margin: 0 auto 16px auto;
 }
 
 .noticeTitle {
-  font-size: 1.35rem;
+  font-size: clamp(1.15rem, 3vw, 1.35rem);
   font-weight: 800;
   color: #ffffff;
   margin-bottom: 8px;
@@ -82,19 +86,21 @@
 
 .noticeText {
   color: #94a3b8;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
   margin-bottom: 20px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .noticeMeta {
   display: inline-flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   background: rgba(15, 23, 42, 0.8);
-  padding: 8px 20px;
+  padding: 8px 18px;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.05);
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* Winner Card Styles */
@@ -102,11 +108,11 @@
   background: rgba(19, 25, 38, 0.75);
   border: 1px solid rgba(148, 163, 184, 0.12);
   border-radius: 18px;
-  padding: 20px;
+  padding: clamp(14px, 2.5vw, 20px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
   transition: transform 0.2s ease, border-color 0.2s ease;
   height: 100%;
 }
@@ -119,12 +125,13 @@
 .winnerLeft {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
+  min-width: 0;
 }
 
 .trophyBadge {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
   background: rgba(245, 158, 11, 0.12);
   border: 1px solid rgba(245, 158, 11, 0.3);
@@ -138,18 +145,25 @@
 .winnerDetails {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .winnerName {
-  font-size: 1.05rem;
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
   font-weight: 800;
   color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .winnerPrize {
-  font-size: 0.85rem;
+  font-size: clamp(0.78rem, 1.8vw, 0.85rem);
   color: #38bdf8;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .winnerMeta {
@@ -157,11 +171,12 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .maskedBadge {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: #cbd5e1;
   background: rgba(30, 41, 59, 0.6);
@@ -170,7 +185,7 @@
 }
 
 .dateText {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: #64748b;
 }
 
@@ -187,7 +202,32 @@
   background: rgba(19, 25, 38, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 18px;
-  padding: 40px;
+  padding: clamp(24px, 4vw, 40px);
   text-align: center;
   color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 420px) {
+  .winnerCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .winnerMeta {
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .winnerCard {
+    transition: none;
+  }
+  .winnerCard:hover {
+    transform: none;
+  }
 }

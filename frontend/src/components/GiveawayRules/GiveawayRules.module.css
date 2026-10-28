@@ -1,13 +1,13 @@
 .rulesSection {
-  padding: 60px 0;
+  padding: clamp(36px, 5vw, 60px) 0;
 }
 
 .titleWrap {
-  margin-bottom: 32px;
+  margin-bottom: clamp(20px, 3.5vw, 32px);
 }
 
 .title {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
   font-weight: 800;
   color: #ffffff;
   margin-bottom: 8px;
@@ -15,20 +15,21 @@
 
 .sub {
   color: #94a3b8;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  line-height: 1.5;
 }
 
 .rulesGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 16px;
 }
 
 .ruleCard {
   background: rgba(19, 25, 38, 0.7);
   border: 1px solid rgba(148, 163, 184, 0.12);
   border-radius: 16px;
-  padding: 20px;
+  padding: clamp(14px, 2.5vw, 20px);
   transition: border-color 0.2s ease;
 }
 
@@ -37,7 +38,7 @@
 }
 
 .ruleTitle {
-  font-size: 1rem;
+  font-size: clamp(0.92rem, 2vw, 1rem);
   font-weight: 700;
   color: #38bdf8;
   margin-bottom: 6px;
@@ -47,7 +48,7 @@
 }
 
 .ruleText {
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 1.8vw, 0.85rem);
   color: #94a3b8;
   line-height: 1.5;
   margin: 0;
@@ -56,5 +57,6 @@
 @media (max-width: 768px) {
   .rulesGrid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 }

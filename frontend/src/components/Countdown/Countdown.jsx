@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Clock } from 'lucide-react';
-import styles from './Countdown.module.css';
+import React, { useState, useEffect } from "react";
+import { Clock } from "lucide-react";
+import styles from "./Countdown.module.css";
 
-export const Countdown = ({ targetDate, onExpire, label = 'Ends In' }) => {
+export const Countdown = ({ targetDate, onExpire, label = "Ends In" }) => {
   const calculateTimeLeft = () => {
-    if (!targetDate) return { days: 0, hours: 0, minutes: 0, seconds: 0, total: 0 };
+    if (!targetDate)
+      return { days: 0, hours: 0, minutes: 0, seconds: 0, total: 0 };
     const difference = new Date(targetDate).getTime() - new Date().getTime();
 
     if (difference <= 0) {
@@ -16,7 +17,7 @@ export const Countdown = ({ targetDate, onExpire, label = 'Ends In' }) => {
       hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
       minutes: Math.floor((difference / 1000 / 60) % 60),
       seconds: Math.floor((difference / 1000) % 60),
-      total: difference
+      total: difference,
     };
   };
 
@@ -47,7 +48,7 @@ export const Countdown = ({ targetDate, onExpire, label = 'Ends In' }) => {
     );
   }
 
-  const pad = (n) => String(n).padStart(2, '0');
+  const pad = (n) => String(n).padStart(2, "0");
 
   return (
     <div className={styles.timerContainer}>

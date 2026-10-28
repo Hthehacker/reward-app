@@ -7,7 +7,7 @@
 .winnerBanner {
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.3) 100%);
   border-bottom: 1px solid rgba(245, 158, 11, 0.4);
-  padding: 14px 0;
+  padding: 12px 0;
   box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
   animation: pulseGold 3s infinite alternate;
 }
@@ -41,7 +41,7 @@
 .winnerBannerText {
   color: #ffffff;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
 }
 
 .claimBannerBtn {
@@ -58,6 +58,7 @@
   gap: 6px;
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
   transition: all 0.2s ease;
+  min-height: 38px;
 }
 
 .claimBannerBtn:hover {
@@ -81,20 +82,21 @@
 
 .nonWinnerText {
   color: #94a3b8;
-  font-size: 0.9rem;
+  font-size: clamp(0.82rem, 1.8vw, 0.9rem);
 }
 
 .toastNotification {
   position: fixed;
-  top: 80px;
-  right: 20px;
+  top: clamp(70px, 8vw, 85px);
+  right: clamp(10px, 2.5vw, 20px);
   z-index: 9998;
-  padding: 12px 20px;
+  padding: 12px 18px;
   border-radius: 12px;
-  font-size: 0.9rem;
+  font-size: clamp(0.82rem, 1.8vw, 0.9rem);
   font-weight: 600;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
   animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: calc(100vw - 20px);
 }
 
 .toastSuccess {
@@ -123,4 +125,33 @@
 @keyframes pulseGold {
   0% { border-bottom-color: rgba(245, 158, 11, 0.4); }
   100% { border-bottom-color: rgba(245, 158, 11, 0.8); }
+}
+
+@media (max-width: 576px) {
+  .bannerContainer {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .winnerBannerLeft {
+    justify-content: center;
+  }
+  .claimBannerBtn {
+    justify-content: center;
+    width: 100%;
+  }
+  .nonWinnerContainer {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .winnerBanner {
+    animation: none;
+  }
+  .toastNotification {
+    animation: none;
+  }
 }
