@@ -34,6 +34,7 @@ const handleResponse = async (res) => {
 export const api = {
   // Giveaways
   getCurrentGiveaway: async () => {
+    console.log(API_BASE)
     const res = await fetch(`${API_BASE}/giveaways/current`, { headers: getHeaders() });
     return handleResponse(res);
   },
