@@ -1,0 +1,432 @@
+/* ==========================================================================
+   VELOOP REWARDS – MODERN RESPONSIVE ADMIN DASHBOARD DESIGN SYSTEM
+   ========================================================================== */
+
+.adminLayout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #07090e;
+  color: #f8fafc;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   BACKDROP (for Mobile Drawer)
+   -------------------------------------------------------------------------- */
+.drawerBackdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1040;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   SIDEBAR NAVIGATION
+   -------------------------------------------------------------------------- */
+.sidebar {
+  width: 270px;
+  background: linear-gradient(180deg, #0d111a 0%, #07090e 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s ease;
+  overflow-y: auto;
+}
+
+.sidebarHeader {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brandLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brandLogo {
+  height: 32px;
+  width: auto;
+}
+
+.brandBadge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  background: rgba(192, 132, 252, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(192, 132, 252, 0.3);
+}
+
+.closeDrawerBtn {
+  display: none;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.closeDrawerBtn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Nav Menu */
+.navSection {
+  padding: 16px 12px;
+  flex: 1;
+}
+
+.navSectionLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  padding: 8px 12px 10px;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navItem {
+  margin: 0;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  color: #94a3b8;
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease-in-out;
+  border: 1px solid transparent;
+}
+
+.navLink:hover {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.navLink.active {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.2);
+  font-weight: 600;
+  box-shadow: 0 0 15px -3px rgba(56, 189, 248, 0.15);
+}
+
+.navIcon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.navLink:hover .navIcon {
+  transform: scale(1.08);
+}
+
+.navBadge {
+  margin-left: auto;
+  font-size: 0.72rem;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+/* Sidebar Footer / Admin profile card */
+.sidebarFooter {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.adminCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.adminAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #c084fc, #6366f1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.adminInfo {
+  min-width: 0;
+  flex: 1;
+}
+
+.adminName {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #f8fafc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.adminRole {
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.sidebarActionRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.sidebarActionBtn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sidebarActionBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.logoutBtn:hover {
+  background: rgba(244, 63, 94, 0.15);
+  border-color: rgba(244, 63, 94, 0.3);
+  color: #fda4af;
+}
+
+/* --------------------------------------------------------------------------
+   MAIN CONTENT AREA & TOPBAR
+   -------------------------------------------------------------------------- */
+.contentWrapper {
+  flex: 1;
+  margin-left: 270px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* Prevents flex children from causing horizontal scroll */
+  min-height: 100vh;
+}
+
+.topBar {
+  height: 68px;
+  background: rgba(13, 17, 26, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.drawerToggleBtn {
+  display: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.topBarTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.topBarRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.viewSiteBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.viewSiteBtn:hover {
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.3);
+  background: rgba(56, 189, 248, 0.05);
+}
+
+.resetDemoBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  background: rgba(245, 158, 11, 0.06);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.resetDemoBtn:hover:not(:disabled) {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
+.resetDemoBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   PAGE BODY
+   -------------------------------------------------------------------------- */
+.mainContainer {
+  flex: 1;
+  padding: 28px;
+  max-width: 1500px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE BREAKPOINTS (Tablet & Mobile)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 240px;
+  }
+  .contentWrapper {
+    margin-left: 240px;
+  }
+  .mainContainer {
+    padding: 20px;
+  }
+  .topBar {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 860px) {
+  .drawerBackdrop {
+    display: block;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    width: 280px;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.6);
+  }
+
+  .sidebar.drawerOpen {
+    transform: translateX(0);
+  }
+
+  .closeDrawerBtn {
+    display: block;
+  }
+
+  .contentWrapper {
+    margin-left: 0;
+  }
+
+  .drawerToggleBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mainContainer {
+    padding: 16px 14px;
+  }
+
+  .topBar {
+    padding: 0 14px;
+    height: 60px;
+  }
+
+  .topBarTitle {
+    font-size: 1rem;
+  }
+
+  .viewSiteBtn span {
+    display: none;
+  }
+}

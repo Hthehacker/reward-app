@@ -16,6 +16,16 @@ export const joinGiveaway = async (req, res, next) => {
 
   const transactionId = `TXN-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
 
+  if (user && user.role === 'admin') {
+    return res.status(403).json({
+      success: false,
+      error: {
+        code: 'ADMIN_CANNOT_PARTICIPATE',
+        message: 'Administrators cannot participate in giveaways or hold coin balances.'
+      }
+    });
+  }
+
   try {
     // 1. Load giveaway from DB (authoritative)
     const giveaway = await Giveaway.findOne({

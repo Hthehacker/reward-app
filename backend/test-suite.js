@@ -1,4 +1,4 @@
-// VELOOP Automated Integration & Security Verification Suite
+// VELOOP Automated Integration, Security & RBAC Verification Suite
 const BASE_URL = 'http://localhost:5000/api';
 
 async function runTests() {
@@ -131,6 +131,121 @@ async function runTests() {
       })
     }).then((r) => r.json());
     assert(gcClaimRes.success && gcClaimRes.data.prizeType === 'gift_card', 'Amazon gift card claimed with email only without requiring physical address');
+
+    // 13. Test User Registration Feature
+    const testEmail = `tester_${Date.now()}@veloop.io`;
+    const regRes = await fetch(`${BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Automated Tester',
+        email: testEmail,
+        password: 'Password123!'
+      })
+    });
+    const regData = await regRes.json();
+    assert(regData.success && regData.data.userId.startsWith('VE'), 'User registration created account with unique userId');
+    const cookieHeader = regRes.headers.get('set-cookie');
+    assert(cookieHeader && cookieHeader.includes('token='), 'Registration sets httpOnly token cookie');
+
+    // 14. Test Duplicate Registration Prevention
+    const dupRegRes = await fetch(`${BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Duplicate Tester',
+        email: testEmail,
+        password: 'Password123!'
+      })
+    }).then((r) => r.json());
+    assert(!dupRegRes.success && dupRegRes.error.code === 'EMAIL_ALREADY_EXISTS', 'Duplicate email registration rejected');
+
+    // 15. Test Login with Password (Valid vs Invalid)
+    const badLoginRes = await fetch(`${BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: testEmail,
+        password: 'WrongPassword!'
+      })
+    }).then((r) => r.json());
+    assert(!badLoginRes.success && badLoginRes.error.code === 'INVALID_CREDENTIALS', 'Invalid password rejected on login');
+
+    const goodLoginRes = await fetch(`${BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: testEmail,
+        password: 'Password123!'
+      })
+    });
+    const goodLoginData = await goodLoginRes.json();
+    assert(goodLoginData.success && goodLoginData.data.email === testEmail, 'Valid password accepted on login');
+    const userAuthCookie = goodLoginRes.headers.get('set-cookie');
+
+    // 16. Test Persistent Authentication via Cookie (/auth/me)
+    const tokenExtract = userAuthCookie.split(';')[0];
+    const meRes = await fetch(`${BASE_URL}/auth/me`, {
+      headers: { Cookie: tokenExtract }
+    }).then((r) => r.json());
+    assert(meRes.success && meRes.data.email === testEmail, 'Persistent authentication verified via httpOnly cookie');
+
+    // 17. Test Role-Based Access Control (Regular User blocked from Admin Endpoints)
+    const blockedAdminRes = await fetch(`${BASE_URL}/admin/giveaways`, {
+      headers: { Cookie: tokenExtract }
+    });
+    assert(blockedAdminRes.status === 403, 'Regular user strictly blocked from admin routes (403 Forbidden)');
+
+    // 18. Test Admin Login and Admin Operations
+    const adminLoginRes = await fetch(`${BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: 'VE_ADMIN',
+        password: 'Veloop2026!'
+      })
+    });
+    const adminLoginData = await adminLoginRes.json();
+    assert(adminLoginData.success && adminLoginData.data.role === 'admin', 'Admin login verified with role admin');
+    const adminCookie = adminLoginRes.headers.get('set-cookie').split(';')[0];
+
+    // 19. Admin authorized to view giveaways
+    const adminGiveawaysRes = await fetch(`${BASE_URL}/admin/giveaways`, {
+      headers: { Cookie: adminCookie }
+    }).then((r) => r.json());
+    assert(adminGiveawaysRes.success && Array.isArray(adminGiveawaysRes.data), 'Admin authorized to access /api/admin/giveaways');
+
+    // 20. Admin creates new giveaway
+    const newGwTitle = `Automated Event ${Date.now()}`;
+    const createGwRes = await fetch(`${BASE_URL}/admin/giveaways`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Cookie: adminCookie },
+      body: JSON.stringify({
+        title: newGwTitle,
+        subtitle: 'Automated test giveaway',
+        description: 'Comprehensive test event created by admin',
+        status: 'UPCOMING'
+      })
+    }).then((r) => r.json());
+    assert(createGwRes.success && createGwRes.data.title === newGwTitle, 'Admin successfully created new giveaway');
+    const createdGwId = createGwRes.data.giveawayId;
+
+    // 21. Admin updates giveaway
+    const updateGwRes = await fetch(`${BASE_URL}/admin/giveaways/${createdGwId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Cookie: adminCookie },
+      body: JSON.stringify({
+        status: 'ACTIVE'
+      })
+    }).then((r) => r.json());
+    assert(updateGwRes.success && updateGwRes.data.status === 'ACTIVE', 'Admin successfully updated giveaway status to ACTIVE');
+
+    // 22. Admin deletes giveaway
+    const deleteGwRes = await fetch(`${BASE_URL}/admin/giveaways/${createdGwId}`, {
+      method: 'DELETE',
+      headers: { Cookie: adminCookie }
+    }).then((r) => r.json());
+    assert(deleteGwRes.success && deleteGwRes.data.giveawayId === createdGwId, 'Admin successfully deleted giveaway');
 
     console.log('\n====================================================');
     console.log(`📊 Test Results: ${passed} PASSED, ${failed} FAILED`);

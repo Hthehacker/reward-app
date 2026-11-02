@@ -1,40 +1,56 @@
 .card {
-  background: linear-gradient(180deg, rgba(19, 25, 38, 0.9) 0%, rgba(13, 17, 26, 0.98) 100%);
-  border: 1px solid rgba(148, 163, 184, 0.15);
-  border-radius: clamp(18px, 3vw, 24px);
-  padding: clamp(16px, 3.5vw, 24px);
+  width: clamp(280px, 30vw, 320px);
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  background: linear-gradient(180deg, rgba(20, 26, 42, 0.9) 0%, rgba(12, 16, 26, 0.98) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 22px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.7);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  height: 100%;
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.65);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  height: 440px;
+}
+
+.topGlow {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fbbf24, transparent);
+  box-shadow: 0 0 15px #fbbf24;
 }
 
 .card:hover {
   transform: translateY(-6px);
-  border-color: rgba(56, 189, 248, 0.4);
-  box-shadow: 0 20px 45px -12px rgba(56, 189, 248, 0.2), 0 0 1px 1px rgba(56, 189, 248, 0.4);
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 18px 40px -10px rgba(56, 189, 248, 0.22), 0 0 20px rgba(56, 189, 248, 0.1);
 }
 
 .cardHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
+  z-index: 2;
 }
 
 .positionBadge {
   font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 4px 10px;
   border-radius: 9999px;
   background: rgba(56, 189, 248, 0.12);
   color: #38bdf8;
   border: 1px solid rgba(56, 189, 248, 0.25);
+  display: inline-flex;
+  align-items: center;
 }
 
 .badgeFirst {
@@ -54,59 +70,77 @@
 
 .imageWrap {
   width: 100%;
-  height: clamp(140px, 20vw, 190px);
+  height: 155px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: clamp(14px, 2vw, 20px);
+  margin-bottom: 14px;
   position: relative;
+  flex-shrink: 0;
+}
+
+.imageAura {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .prizeImg {
-  max-width: 100%;
-  max-height: clamp(130px, 18vw, 180px);
+  max-width: 90%;
+  max-height: 140px;
   object-fit: contain;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.6));
+  z-index: 1;
 }
 
 .card:hover .prizeImg {
-  transform: scale(1.05) translateY(-3px);
+  transform: scale(1.06) translateY(-4px);
 }
 
 .contentBody {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  z-index: 2;
 }
 
 .prizeName {
-  font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+  font-size: 1.15rem;
   font-weight: 800;
   color: #ffffff;
   margin-bottom: 6px;
   line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .description {
-  font-size: clamp(0.82rem, 1.8vw, 0.86rem);
+  font-size: 0.82rem;
   color: #94a3b8;
-  line-height: 1.5;
-  margin-bottom: 14px;
-  flex-grow: 1;
+  line-height: 1.45;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 38px;
 }
 
 .metaRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
-  background: rgba(15, 23, 42, 0.6);
+  padding: 8px 12px;
+  background: rgba(15, 23, 42, 0.65);
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  margin-bottom: 16px;
-  gap: 8px;
-  flex-wrap: wrap;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: auto;
+  margin-bottom: 14px;
 }
 
 .metaItem {
@@ -115,14 +149,15 @@
 }
 
 .metaLabel {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 600;
   color: #64748b;
   text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .metaValue {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: #e2e8f0;
 }
@@ -134,25 +169,30 @@
 
 .cardFooter {
   margin-top: auto;
+  z-index: 2;
 }
 
 .joinBtn {
   width: 100%;
-  min-height: 44px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 16px;
-  border-radius: 14px;
+  padding: 9px 14px;
+  border-radius: 12px;
   font-weight: 700;
-  font-size: clamp(0.85rem, 2vw, 0.92rem);
-  background: linear-gradient(135deg, rgba(2, 132, 199, 0.2) 0%, rgba(37, 99, 235, 0.2) 100%);
-  border: 1px solid rgba(56, 189, 248, 0.35);
+  font-size: 0.86rem;
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.25) 0%, rgba(37, 99, 235, 0.25) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.4);
   color: #38bdf8;
   text-decoration: none;
   transition: all 0.25s ease;
   cursor: pointer;
+}
+
+.arrowIcon {
+  transition: transform 0.2s ease;
 }
 
 .card:hover .joinBtn {
@@ -162,16 +202,27 @@
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .card,
-  .prizeImg,
-  .joinBtn {
-    transition: none;
+.card:hover .arrowIcon {
+  transform: translateX(3px);
+}
+
+.joinBtnEnded {
+  background: rgba(30, 41, 59, 0.5);
+  border-color: rgba(148, 163, 184, 0.2);
+  color: #94a3b8;
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: clamp(245px, 78vw, 280px);
+    height: auto;
+    min-height: 410px;
+    padding: 15px;
   }
-  .card:hover {
-    transform: none;
+  .imageWrap {
+    height: 135px;
   }
-  .card:hover .prizeImg {
-    transform: none;
+  .prizeImg {
+    max-height: 120px;
   }
 }

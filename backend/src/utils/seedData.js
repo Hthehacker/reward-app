@@ -189,7 +189,7 @@ export const seedDatabase = async () => {
         email: 'admin@veloop.io',
         password: hashedPassword,
         role: 'admin',
-        balances: { VEs: 99999, SVEs: 99999, tokens: 99999 },
+        balances: null,
         deviceHash: 'dev_fp_admin_root'
       }
     ];

@@ -25,12 +25,22 @@ import CustomLoader from '../../components/CustomLoader/CustomLoader.jsx';
 import ParticipationModal from '../../components/ParticipationModal/ParticipationModal.jsx';
 import EarnModal from '../../components/EarnModal/EarnModal.jsx';
 import UserStateDemoSwitcher from '../../components/UserStateDemoSwitcher/UserStateDemoSwitcher.jsx';
+import AuthModal from '../../components/AuthModal/AuthModal.jsx';
+import AdminModal from '../../components/AdminModal/AdminModal.jsx';
 
 import styles from './GiveawayDetailPage.module.css';
 
 export const GiveawayDetailPage = () => {
   const { slug } = useParams();
-  const { user, isLoggedIn, login, refreshUser, currentGiveaway, showToast } = useAuth();
+  const {
+    user,
+    isLoggedIn,
+    login,
+    openAuthModal,
+    refreshUser,
+    currentGiveaway,
+    showToast
+  } = useAuth();
 
   const [giveaway, setGiveaway] = useState(null);
   const [prize, setPrize] = useState(null);
@@ -225,7 +235,7 @@ export const GiveawayDetailPage = () => {
               </div>
               <button
                 className="btn-veloop-primary"
-                onClick={() => login('VE10025')}
+                onClick={() => openAuthModal('login')}
               >
                 Login to Participate
               </button>
@@ -448,6 +458,10 @@ export const GiveawayDetailPage = () => {
 
       {/* Floating Demo Switcher */}
       <UserStateDemoSwitcher />
+
+      {/* Authentication & Admin Modals */}
+      <AuthModal />
+      <AdminModal />
     </div>
   );
 };

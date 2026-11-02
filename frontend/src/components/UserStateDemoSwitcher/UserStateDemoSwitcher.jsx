@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sliders, RefreshCw, X, Shield, Sparkles } from 'lucide-react';
+import { Sliders, RefreshCw, X, Shield, Sparkles, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { api } from '../../services/api.js';
 import styles from './UserStateDemoSwitcher.module.css';
@@ -17,13 +17,30 @@ const PRESET_USER_PROFILES = [
 
 export const UserStateDemoSwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, switchDemoUser, currentGiveaway, refreshGiveaway, showToast } = useAuth();
+  const {
+    user,
+    isAdmin,
+    switchDemoUser,
+    currentGiveaway,
+    refreshGiveaway,
+    showToast,
+    openAdminModal
+  } = useAuth();
   const [actionLoading, setActionLoading] = useState(false);
 
   const currentUserId = user ? user.userId : 'VISITOR';
   const giveawayStatus = currentGiveaway?.status || 'ACTIVE';
 
+  const verifyAdminPermission = () => {
+    if (!isAdmin) {
+      showToast('RBAC Restricted: Select "8. Admin" profile to perform administrative actions.', 'error');
+      return false;
+    }
+    return true;
+  };
+
   const handleStatusChange = async (status) => {
+    if (!verifyAdminPermission()) return;
     if (!currentGiveaway) return;
     setActionLoading(true);
     try {
@@ -38,6 +55,7 @@ export const UserStateDemoSwitcher = () => {
   };
 
   const handleSelectWinners = async () => {
+    if (!verifyAdminPermission()) return;
     if (!currentGiveaway) return;
     setActionLoading(true);
     try {
@@ -52,6 +70,7 @@ export const UserStateDemoSwitcher = () => {
   };
 
   const handleResetDatabase = async () => {
+    if (!verifyAdminPermission()) return;
     setActionLoading(true);
     try {
       await api.adminResetDemo();
@@ -82,7 +101,7 @@ export const UserStateDemoSwitcher = () => {
           </div>
 
           {/* User State Selector */}
-          <span className={styles.sectionLabel}>Test User Persona (Req #54)</span>
+          <span className={styles.sectionLabel}>Test User Persona</span>
           <select
             className={styles.selectInput}
             value={currentUserId}
@@ -95,8 +114,13 @@ export const UserStateDemoSwitcher = () => {
             ))}
           </select>
 
+          {/* Admin Role Status Notice */}
+          <div style={{ marginTop: '8px', fontSize: '0.72rem', color: isAdmin ? '#4ade80' : '#94a3b8' }}>
+            Current Role: <strong>{isAdmin ? '🛡️ Administrator' : '👤 Standard User / Visitor'}</strong>
+          </div>
+
           {/* Giveaway Lifecycle Selector */}
-          <span className={styles.sectionLabel}>Giveaway Lifecycle (Req #11, #23)</span>
+          <span className={styles.sectionLabel}>Giveaway Lifecycle</span>
           <div className={styles.actionBtnGroup}>
             <button
               className={`${styles.statusBtn} ${giveawayStatus === 'ACTIVE' ? styles.statusBtnActive : ''}`}
@@ -122,13 +146,13 @@ export const UserStateDemoSwitcher = () => {
           </div>
 
           {/* Quick Admin Actions */}
-          <span className={styles.sectionLabel}>Backend Engines</span>
+          <span className={styles.sectionLabel}>Admin Operations</span>
           <div className={styles.secondaryRow}>
             <button
               className={styles.miniBtn}
               onClick={handleSelectWinners}
               disabled={actionLoading}
-              title="Runs server-side winner selection"
+              title="Runs server-side winner selection (Admin Only)"
             >
               Draw Winners
             </button>
@@ -136,12 +160,40 @@ export const UserStateDemoSwitcher = () => {
               className={styles.miniBtn}
               onClick={handleResetDatabase}
               disabled={actionLoading}
-              title="Reset demo data"
+              title="Reset demo data (Admin Only)"
             >
               <RefreshCw size={11} style={{ display: 'inline', marginRight: '4px' }} />
               Reset DB
             </button>
           </div>
+
+          {isAdmin && (
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                openAdminModal();
+              }}
+              style={{
+                marginTop: '10px',
+                width: '100%',
+                background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(126, 34, 206, 0.25) 100%)',
+                border: '1px solid rgba(168, 85, 247, 0.4)',
+                color: '#e9d5ff',
+                borderRadius: '8px',
+                padding: '6px 10px',
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px'
+              }}
+            >
+              <ShieldAlert size={13} />
+              Open Full Admin Panel
+            </button>
+          )}
         </div>
       )}
 
@@ -150,14 +202,15 @@ export const UserStateDemoSwitcher = () => {
         <span>Demo Controls</span>
         <span
           style={{
-            background: '#0284c7',
+            background: isAdmin ? '#9333ea' : '#0284c7',
             color: '#fff',
             fontSize: '0.68rem',
             padding: '2px 6px',
-            borderRadius: '999px'
+            borderRadius: '999px',
+            fontWeight: 700
           }}
         >
-          {currentUserId}
+          {isAdmin ? 'ADMIN' : currentUserId}
         </span>
       </button>
     </div>

@@ -1,113 +1,184 @@
 .section {
-  padding: clamp(40px, 6vw, 70px) 0;
+  padding: clamp(28px, 4vw, 44px) 0;
   position: relative;
-  background: radial-gradient(circle at 50% 50%, rgba(30, 27, 75, 0.25) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(30, 27, 75, 0.18) 0%, transparent 70%);
 }
 
 .headerWrap {
   text-align: center;
-  margin-bottom: clamp(30px, 4vw, 50px);
+  margin-bottom: clamp(16px, 2.5vw, 24px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tagBadge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 0.12em;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  margin-bottom: 6px;
+  display: inline-block;
 }
 
 .title {
-  font-size: clamp(1.65rem, 4vw, 2.3rem);
+  font-size: clamp(1.4rem, 3vw, 1.85rem);
   font-weight: 900;
   color: #ffffff;
-  margin-bottom: 12px;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
 }
 
 .subtitle {
-  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  font-size: clamp(0.84rem, 1.6vw, 0.94rem);
   color: #94a3b8;
-  max-width: 580px;
+  max-width: 520px;
   margin: 0 auto;
-  line-height: 1.55;
+  line-height: 1.45;
 }
 
-.timelineGrid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-  position: relative;
-}
-
-.timelineCard {
-  background: rgba(19, 25, 38, 0.7);
-  border: 1px solid rgba(148, 163, 184, 0.12);
+/* Compact Stepper Container */
+.stepperContainer {
+  background: rgba(15, 21, 33, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.15);
   border-radius: 20px;
-  padding: clamp(18px, 3vw, 24px) clamp(14px, 2.5vw, 20px);
+  padding: clamp(14px, 2.5vw, 20px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.stepperTrack {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.stepItem {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  background: rgba(22, 30, 48, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: clamp(10px, 1.8vw, 14px);
+  transition: all 0.25s ease;
   position: relative;
-  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
-.timelineCard:hover {
-  transform: translateY(-4px);
-  border-color: rgba(56, 189, 248, 0.4);
+.stepItem:hover {
+  background: rgba(30, 41, 65, 0.7);
+  border-color: rgba(56, 189, 248, 0.35);
+  transform: translateY(-2px);
 }
 
-.stepNumber {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: #38bdf8;
-  margin-bottom: 12px;
+.stepIndicatorRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.iconWrap {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(56, 189, 248, 0.1);
+.iconCircle {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(56, 189, 248, 0.12);
   color: #38bdf8;
   border: 1px solid rgba(56, 189, 248, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 14px;
   flex-shrink: 0;
 }
 
-.stepHeading {
-  font-size: clamp(0.95rem, 2vw, 1.05rem);
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 8px;
+.stepBadge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #64748b;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.stepItem:hover .stepBadge {
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.stepTextWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stepTitle {
+  font-size: clamp(0.85rem, 1.6vw, 0.92rem);
+  font-weight: 800;
+  color: #f8fafc;
+  margin: 0;
+  line-height: 1.25;
 }
 
 .stepDesc {
-  font-size: clamp(0.8rem, 1.6vw, 0.85rem);
+  font-size: clamp(0.74rem, 1.4vw, 0.8rem);
   color: #94a3b8;
-  line-height: 1.5;
+  margin: 0;
+  line-height: 1.4;
 }
 
-@media (max-width: 1200px) {
-  .timelineGrid {
+.connectorArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(148, 163, 184, 0.3);
+  flex-shrink: 0;
+  padding: 0 2px;
+}
+
+/* Tablet: 3 columns then 2 columns or clean wrap */
+@media (max-width: 992px) {
+  .connectorArrow {
+    display: none;
+  }
+
+  .stepperTrack {
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 10px;
   }
 }
 
-@media (max-width: 768px) {
-  .timelineGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .timelineGrid {
+/* Mobile: 2 columns then 1 */
+@media (max-width: 640px) {
+  .stepperTrack {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 8px;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .timelineCard {
-    transition: none;
+  .stepItem {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
   }
-  .timelineCard:hover {
-    transform: none;
+
+  .stepIndicatorRow {
+    width: auto;
+    gap: 8px;
+  }
+
+  .stepTextWrap {
+    flex: 1;
+  }
+
+  .stepDesc {
+    font-size: 0.74rem;
   }
 }

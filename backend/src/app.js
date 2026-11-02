@@ -51,6 +51,23 @@ app.use(
 app.use(express.json({ limit: '50kb' }));
 app.use(express.urlencoded({ extended: true, limit: '50kb' }));
 
+// Lightweight native cookie parser middleware
+app.use((req, res, next) => {
+  req.cookies = {};
+  const cookieHeader = req.headers.cookie;
+  if (cookieHeader) {
+    cookieHeader.split(';').forEach((cookie) => {
+      const parts = cookie.trim().split('=');
+      if (parts.length >= 2) {
+        const key = parts[0].trim();
+        const value = decodeURIComponent(parts.slice(1).join('='));
+        req.cookies[key] = value;
+      }
+    });
+  }
+  next();
+});
+
 // Logging
 app.use(morgan('dev'));
 

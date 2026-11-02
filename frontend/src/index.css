@@ -42,7 +42,23 @@
 html, body {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
+  scroll-behavior: smooth;
+}
+
+/* Ensure sticky navbar offset during anchor navigation across device sizes */
+section[id],
+div[id],
+[id] {
+  scroll-margin-top: 84px;
+}
+
+@media (max-width: 768px) {
+  section[id],
+  div[id],
+  [id] {
+    scroll-margin-top: 72px;
+  }
 }
 
 body {

@@ -7,58 +7,45 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       index: true,
-      trim: true
+      trim: true,
     },
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
       lowercase: true,
-      trim: true
+      trim: true,
     },
     password: {
       type: String,
-      required: true
+      required: true,
     },
     role: {
       type: String,
       enum: ['user', 'admin'],
-      default: 'user'
+      default: 'user',
     },
     balances: {
-      VEs: {
-        type: Number,
-        default: 850,
-        min: 0
-      },
-      SVEs: {
-        type: Number,
-        default: 1200,
-        min: 0
-      },
-      tokens: {
-        type: Number,
-        default: 5000,
-        min: 0
-      }
+      VEs: { type: Number, default: 850, min: 0 },
+      SVEs: { type: Number, default: 1200, min: 0 },
+      tokens: { type: Number, default: 5000, min: 0 },
     },
-    deviceHash: {
-      type: String,
-      default: ''
-    },
-    isSuspicious: {
-      type: Boolean,
-      default: false
-    }
+    deviceHash: { type: String, default: '' },
+    isSuspicious: { type: Boolean, default: false },
+    refreshTokenHash: { type: String, default: null },
   },
-  {
-    timestamps: true
-  }
+  { timestamps: true }
 );
+
+userSchema.pre('save', function () {
+  if (this.role === 'admin') {
+    this.balances = null;
+  }
+});
 
 export default mongoose.model('User', userSchema);

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Trophy, ArrowRight, Sparkles, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { api } from '../../services/api.js';
+import { scrollToSection } from '../../utils/scrollHelper.js';
 
 import Navbar from '../../components/Navbar/Navbar.jsx';
 import GiveawayHero from '../../components/GiveawayHero/GiveawayHero.jsx';
@@ -18,6 +20,8 @@ import CustomLoader from '../../components/CustomLoader/CustomLoader.jsx';
 import PrizeClaimModal from '../../components/PrizeClaimModal/PrizeClaimModal.jsx';
 import EarnModal from '../../components/EarnModal/EarnModal.jsx';
 import UserStateDemoSwitcher from '../../components/UserStateDemoSwitcher/UserStateDemoSwitcher.jsx';
+import AuthModal from '../../components/AuthModal/AuthModal.jsx';
+import AdminModal from '../../components/AdminModal/AdminModal.jsx';
 
 import styles from './GiveawayPage.module.css';
 
@@ -35,6 +39,8 @@ export const GiveawayPage = () => {
   const [claimStatusData, setClaimStatusData] = useState(null);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const [isEarnModalOpen, setIsEarnModalOpen] = useState(false);
+
+  const location = useLocation();
 
   // Load stats
   useEffect(() => {
@@ -68,14 +74,22 @@ export const GiveawayPage = () => {
     checkClaimStatus();
   }, [user?.userId, currentGiveaway?.giveawayId, currentGiveaway?.status]);
 
+  // Handle anchor navigation from location hash or state once data and DOM are ready
+  useEffect(() => {
+    const hash = location.hash ? location.hash.replace('#', '') : null;
+    const targetId = hash || location.state?.scrollTo;
+
+    if (targetId && !giveawayLoading && currentGiveaway) {
+      scrollToSection(targetId);
+    }
+  }, [location.hash, location.state?.scrollTo, giveawayLoading, currentGiveaway]);
+
   const scrollToPrizes = () => {
-    const el = document.getElementById('prizes');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    scrollToSection('prizes');
   };
 
   const scrollToHowItWorks = () => {
-    const el = document.getElementById('how-it-works');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    scrollToSection('how-it-works');
   };
 
   // Themed Custom Loader during initial fetch
@@ -173,6 +187,10 @@ export const GiveawayPage = () => {
                 href="#winners-section"
                 className="btn-veloop-secondary"
                 style={{ padding: '4px 14px', fontSize: '0.8rem' }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection('winners-section');
+                }}
               >
                 View Winners
               </a>
@@ -242,6 +260,10 @@ export const GiveawayPage = () => {
 
       {/* Floating Demo Switcher */}
       <UserStateDemoSwitcher />
+
+      {/* Authentication & Admin Modals */}
+      <AuthModal />
+      <AdminModal />
     </div>
   );
 };

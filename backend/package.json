@@ -7,9 +7,11 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "seed": "node src/utils/seedData.js"
+    "seed": "node src/utils/seedData.js",
+    "seed-admin": "node src/utils/seedAdmin.js",
+    "test": "jest"
   },
-  "keywords": ["veloop", "rewards", "giveaway", "fraud-detection", "fintech"],
+  "keywords": ["veloop","rewards","giveaway","fraud-detection","fintech"],
   "author": "VELOOP Team",
   "license": "ISC",
   "dependencies": {
@@ -22,5 +24,9 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.11.2",
     "morgan": "^1.12.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
   }
 }

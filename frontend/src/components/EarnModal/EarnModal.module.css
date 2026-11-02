@@ -1,127 +1,244 @@
+/* ==========================================================================
+   REAL EARN EVENT MODAL STYLES
+   ========================================================================== */
+
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(4, 6, 10, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  z-index: 2100;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(8px);
+  z-index: 1200;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(10px, 2.5vw, 20px);
+  padding: 16px;
+  overflow-y: auto;
 }
 
 .modalCard {
-  background: radial-gradient(circle at 50% 10%, rgba(30, 27, 75, 0.9) 0%, rgba(13, 17, 26, 0.98) 80%);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  border-radius: clamp(18px, 3vw, 24px);
-  max-width: 480px;
   width: 100%;
-  padding: clamp(18px, 4vw, 32px);
+  max-width: 640px;
+  background: #0d111a;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
   position: relative;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9);
-  max-height: min(90vh, 650px);
-  overflow-y: auto;
+  max-height: 90vh;
+  animation: modalScale 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+@keyframes modalScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .closeBtn {
   position: absolute;
-  top: clamp(12px, 2.5vw, 18px);
-  right: clamp(12px, 2.5vw, 18px);
+  top: 18px;
+  right: 18px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: #94a3b8;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
   cursor: pointer;
   z-index: 10;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
 .closeBtn:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
 .header {
-  text-align: center;
-  margin-bottom: 20px;
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.headerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 10px;
 }
 
 .title {
-  font-size: clamp(1.25rem, 3vw, 1.45rem);
+  font-size: 1.35rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #f8fafc;
   margin-bottom: 6px;
 }
 
 .sub {
+  font-size: 0.86rem;
   color: #94a3b8;
-  font-size: clamp(0.85rem, 1.8vw, 0.9rem);
+  margin: 0;
   line-height: 1.5;
 }
 
+.userBalanceBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: #07090e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 10px 16px;
+}
+
+.balancePillItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+}
+
+.pillLabel {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.pillVal {
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
 .taskList {
+  padding: 16px 20px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
 .taskItem {
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(148, 163, 184, 0.15);
-  border-radius: 16px;
-  padding: 14px 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  transition: all 0.2s ease;
+}
+
+.taskItem:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(56, 189, 248, 0.2);
+}
+
+.taskItemDone {
+  opacity: 0.65;
+  border-color: rgba(16, 185, 129, 0.2);
+  background: rgba(16, 185, 129, 0.03);
+}
+
+.questIconBox {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .taskInfo {
-  display: flex;
-  flex-direction: column;
+  flex: 1;
   min-width: 0;
 }
 
+.taskTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
 .taskTitle {
-  font-size: clamp(0.85rem, 2vw, 0.92rem);
+  font-size: 0.92rem;
   font-weight: 700;
   color: #f8fafc;
 }
 
-.taskReward {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #38bdf8;
-  margin-top: 2px;
+.rewardTag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  border: 1px solid;
+}
+
+.taskDesc {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.4;
 }
 
 .claimBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 8px 14px;
   border-radius: 10px;
-  font-size: clamp(0.75rem, 1.8vw, 0.82rem);
+  font-size: 0.8rem;
   font-weight: 700;
-  background: rgba(56, 189, 248, 0.15);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  color: #38bdf8;
+  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+  color: #fff;
+  border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
   white-space: nowrap;
-  min-height: 38px;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
+  transition: all 0.15s ease;
   flex-shrink: 0;
 }
 
-.claimBtn:hover {
-  background: #0284c7;
-  color: #ffffff;
+.claimBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.35);
 }
 
-@media (max-width: 380px) {
+.claimBtnDone {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+  box-shadow: none;
+  cursor: default;
+}
+
+.footerWrap {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.footerNote {
+  font-size: 0.74rem;
+  color: #64748b;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 600px) {
   .taskItem {
     flex-direction: column;
     align-items: flex-start;
@@ -129,6 +246,6 @@
   }
   .claimBtn {
     width: 100%;
-    text-align: center;
+    justify-content: center;
   }
 }

@@ -50,6 +50,15 @@
   flex-shrink: 0;
 }
 
+.liveTag h6 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  line-height: 1;
+}
+
 .scrollTrack {
   display: flex;
   white-space: nowrap;

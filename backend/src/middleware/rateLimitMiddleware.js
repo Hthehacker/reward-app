@@ -30,7 +30,7 @@ export const claimRateLimiter = rateLimit({
 
 export const authRateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 30,
+  max: process.env.NODE_ENV === 'production' ? 30 : 500,
   standardHeaders: true,
   legacyHeaders: false,
   message: {

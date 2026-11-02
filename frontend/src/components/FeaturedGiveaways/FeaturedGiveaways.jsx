@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { Gift, Sparkles } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import PrizeCard from '../ParticipationModal/PrizeCard/PrizeCard.jsx';
 import styles from './FeaturedGiveaways.module.css';
 
 export const FeaturedGiveaways = ({ prizes = [], giveawayStatus = 'ACTIVE' }) => {
   const [filter, setFilter] = useState('ALL');
+  const scrollRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   const filteredPrizes = prizes.filter((prize) => {
     if (filter === 'PHYSICAL') return prize.type === 'physical';
@@ -13,53 +16,126 @@ export const FeaturedGiveaways = ({ prizes = [], giveawayStatus = 'ACTIVE' }) =>
     return true;
   });
 
+  const checkScrollability = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setCanScrollLeft(scrollLeft > 10);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+  };
+
+  useEffect(() => {
+    checkScrollability();
+    window.addEventListener('resize', checkScrollability);
+    return () => window.removeEventListener('resize', checkScrollability);
+  }, [filteredPrizes]);
+
+  const handleScroll = (direction) => {
+    if (!scrollRef.current) return;
+    const scrollAmount = 340;
+    scrollRef.current.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth'
+    });
+  };
+
+  const handleFilterClick = (newFilter) => {
+    setFilter(newFilter);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="prizes" className={styles.section}>
       <div className="container">
+        {/* Section Header */}
         <div className={styles.headerWrap}>
-          <div className={styles.sectionBadge}>
-            <Sparkles size={13} />
-            CURRENT PRIZE POOL
-          </div>
-          <h2 className={styles.sectionTitle}>Featured Giveaway Rewards</h2>
-          <p className={styles.sectionSub}>
-            Participate with your earned virtual credits. All rewards are authentic, verified, and backed by VELOOP guarantee.
-          </p>
+          <div className={styles.topRow}>
+            <div>
+              <div className={styles.sectionBadge}>
+                <Sparkles size={10} />
+                EXCLUSIVE REWARDS POOL
+              </div>
+              <h2 className={styles.sectionTitle}>Featured Giveaway Rewards</h2>
+              <p className={styles.sectionSub}>
+                Swipe through flagship devices, audio gear, and shopping vouchers.
+              </p>
+            </div>
 
+            {/* Desktop Carousel Navigation Arrows */}
+            <div className={styles.navArrows}>
+              <button
+                className={`${styles.arrowBtn} ${!canScrollLeft ? styles.arrowDisabled : ''}`}
+                onClick={() => handleScroll('left')}
+                disabled={!canScrollLeft}
+                aria-label="Scroll rewards left"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                className={`${styles.arrowBtn} ${!canScrollRight ? styles.arrowDisabled : ''}`}
+                onClick={() => handleScroll('right')}
+                disabled={!canScrollRight}
+                aria-label="Scroll rewards right"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
+
+          {/* Filter Pills */}
           <div className={styles.filterRow}>
             <button
               className={`${styles.filterBtn} ${filter === 'ALL' ? styles.filterBtnActive : ''}`}
-              onClick={() => setFilter('ALL')}
+              onClick={() => handleFilterClick('ALL')}
             >
               All Rewards ({prizes.length})
             </button>
             <button
               className={`${styles.filterBtn} ${filter === 'PHYSICAL' ? styles.filterBtnActive : ''}`}
-              onClick={() => setFilter('PHYSICAL')}
+              onClick={() => handleFilterClick('PHYSICAL')}
             >
               Flagship Hardware
             </button>
             <button
               className={`${styles.filterBtn} ${filter === 'VOUCHERS' ? styles.filterBtnActive : ''}`}
-              onClick={() => setFilter('VOUCHERS')}
+              onClick={() => handleFilterClick('VOUCHERS')}
             >
               Amazon Vouchers
             </button>
             <button
               className={`${styles.filterBtn} ${filter === 'TOKENS' ? styles.filterBtnActive : ''}`}
-              onClick={() => setFilter('TOKENS')}
+              onClick={() => handleFilterClick('TOKENS')}
             >
               Token Draw
             </button>
           </div>
         </div>
 
-        <div className="row g-4">
-          {filteredPrizes.map((prize) => (
-            <div key={prize.prizeId || prize._id} className="col-12 col-md-6 col-lg-4">
-              <PrizeCard prize={prize} giveawayStatus={giveawayStatus} />
+        {/* Horizontal Carousel Track with touch / swipe support */}
+        <div
+          ref={scrollRef}
+          className={styles.horizontalTrack}
+          onScroll={checkScrollability}
+        >
+          {filteredPrizes.length > 0 ? (
+            filteredPrizes.map((prize) => (
+              <PrizeCard
+                key={prize.prizeId || prize._id}
+                prize={prize}
+                giveawayStatus={giveawayStatus}
+              />
+            ))
+          ) : (
+            <div className={styles.emptyState}>
+              <p>No rewards available under this category.</p>
             </div>
-          ))}
+          )}
+        </div>
+
+        {/* Mobile Swipe Guidance Note */}
+        <div className={styles.mobileSwipeHint}>
+          <span>← Swipe horizontally to explore more rewards →</span>
         </div>
       </div>
     </section>

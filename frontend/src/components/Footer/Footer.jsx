@@ -1,9 +1,30 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/veloop-logo.svg';
+import { scrollToSection, scrollToTop } from '../../utils/scrollHelper.js';
 import styles from './Footer.module.css';
 
 export const Footer = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleFooterAnchor = (e, targetId) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      scrollToSection(targetId);
+      window.history.replaceState(null, '', `/#${targetId}`);
+    } else {
+      navigate(`/#${targetId}`, { state: { scrollTo: targetId } });
+    }
+  };
+
+  const handleHomeClick = (e) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      scrollToTop();
+      window.history.replaceState(null, '', '/');
+    }
+  };
   return (
     <footer className={styles.footer}>
       <div className="container">
@@ -18,18 +39,18 @@ export const Footer = () => {
           <div className={styles.linksCol}>
             <div className={styles.linkGroup}>
               <span className={styles.groupTitle}>Giveaway</span>
-              <Link to="/" className={styles.linkItem}>Giveaway Home</Link>
-              <a href="#prizes" className={styles.linkItem}>Active Prize Pool</a>
-              <a href="#winners-section" className={styles.linkItem}>Official Winners</a>
-              <a href="#how-it-works" className={styles.linkItem}>How to Enter</a>
+              <Link to="/" className={styles.linkItem} onClick={handleHomeClick}>Giveaway Home</Link>
+              <a href="#prizes" className={styles.linkItem} onClick={(e) => handleFooterAnchor(e, 'prizes')}>Active Prize Pool</a>
+              <a href="#winners-section" className={styles.linkItem} onClick={(e) => handleFooterAnchor(e, 'winners-section')}>Official Winners</a>
+              <a href="#how-it-works" className={styles.linkItem} onClick={(e) => handleFooterAnchor(e, 'how-it-works')}>How to Enter</a>
             </div>
 
             <div className={styles.linkGroup}>
               <span className={styles.groupTitle}>Integrity</span>
-              <a href="#rules-faq" className={styles.linkItem}>Official Rules</a>
-              <a href="#rules-faq" className={styles.linkItem}>Terms of Service</a>
-              <a href="#rules-faq" className={styles.linkItem}>Privacy Policy</a>
-              <a href="#rules-faq" className={styles.linkItem}>Anti-Fraud Charter</a>
+              <a href="#rules-faq" className={styles.linkItem} onClick={(e) => handleFooterAnchor(e, 'rules-faq')}>Official Rules</a>
+              <a href="#rules-faq" className={styles.linkItem} onClick={(e) => handleFooterAnchor(e, 'rules-faq')}>Terms of Service</a>
+              <a href="#rules-faq" className={styles.linkItem} onClick={(e) => handleFooterAnchor(e, 'rules-faq')}>Privacy Policy</a>
+              <a href="#rules-faq" className={styles.linkItem} onClick={(e) => handleFooterAnchor(e, 'rules-faq')}>Anti-Fraud Charter</a>
             </div>
 
             <div className={styles.linkGroup}>

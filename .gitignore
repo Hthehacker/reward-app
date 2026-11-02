@@ -27,3 +27,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+edge_test_profile/
+temp-edge/
