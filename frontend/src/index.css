@@ -50,14 +50,14 @@ html, body {
 section[id],
 div[id],
 [id] {
-  scroll-margin-top: 84px;
+  scroll-margin-top: 30px;
 }
 
 @media (max-width: 768px) {
   section[id],
   div[id],
   [id] {
-    scroll-margin-top: 72px;
+    scroll-margin-top: 25px;
   }
 }
 

@@ -285,6 +285,39 @@ export const AuthModal = () => {
               <span>{loading ? 'Creating Account...' : 'Create Account & Claim Welcome Credits'}</span>
               <ArrowRight size={16} />
             </button>
+
+            {/* Quick Demo Accounts Selection on Sign Up (Demo Mode Only) */}
+            {isDemoMode && (
+              <div className={styles.demoSection}>
+                <span className={styles.demoTitle}>
+                  <Sparkles size={12} style={{ display: 'inline', marginRight: '4px' }} />
+                  Instant Demo Sign-In (Testing):
+                </span>
+                <div className={styles.demoChips}>
+                  <button
+                    type="button"
+                    className={styles.demoChip}
+                    onClick={() => handleQuickDemoSelect('VE10025')}
+                  >
+                    Aarav (Member)
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.demoChip}
+                    onClick={() => handleQuickDemoSelect('VE10088')}
+                  >
+                    Ananya (Winner)
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.demoChip} ${styles.adminChip}`}
+                    onClick={() => handleQuickDemoSelect('VE_ADMIN')}
+                  >
+                    Admin (Director)
+                  </button>
+                </div>
+              </div>
+            )}
           </form>
         )}
       </div>

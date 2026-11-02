@@ -28,6 +28,8 @@
   border-radius: 24px;
   width: 100%;
   max-width: 480px;
+  max-height: 92vh;
+  overflow-y: auto;
   padding: clamp(20px, 4vw, 32px);
   color: #ffffff;
   position: relative;
