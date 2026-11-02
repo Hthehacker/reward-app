@@ -139,7 +139,7 @@ export const AuthModal = () => {
 
         {/* Login Form */}
         {authModalTab === 'login' ? (
-          <form onSubmit={handleLoginSubmit} className={styles.form}>
+          <form onSubmit={handleLoginSubmit} method="POST" action="#" className={styles.form}>
             <div className={styles.inputGroup}>
               <label className={styles.label}>Email Address or User ID</label>
               <div className={styles.inputWrap}>
@@ -220,7 +220,7 @@ export const AuthModal = () => {
           </form>
         ) : (
           /* Register Form */
-          <form onSubmit={handleRegisterSubmit} className={styles.form}>
+          <form onSubmit={handleRegisterSubmit} method="POST" action="#" className={styles.form}>
             <div className={styles.inputGroup}>
               <label className={styles.label}>Full Name</label>
               <div className={styles.inputWrap}>
