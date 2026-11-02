@@ -185,12 +185,23 @@ export const AuthModal = () => {
               <ArrowRight size={16} />
             </button>
 
-            {/* Quick Demo Accounts Selection (Demo Mode Only) */}
+            {/* Direct Admin & Demo Accounts Selection */}
             {isDemoMode && (
               <div className={styles.demoSection}>
+                <div className={styles.adminDirectWrap}>
+                  <button
+                    type="button"
+                    className={styles.adminDirectBtn}
+                    onClick={() => handleQuickDemoSelect('VE_ADMIN')}
+                    disabled={loading}
+                  >
+                    <ShieldCheck size={16} />
+                    <span>👑 Direct Admin Login (1-Click)</span>
+                  </button>
+                </div>
                 <span className={styles.demoTitle}>
                   <Sparkles size={12} style={{ display: 'inline', marginRight: '4px' }} />
-                  Instant Demo Sign-In:
+                  Demo Persona Shortcuts:
                 </span>
                 <div className={styles.demoChips}>
                   <button
@@ -203,16 +214,23 @@ export const AuthModal = () => {
                   <button
                     type="button"
                     className={styles.demoChip}
-                    onClick={() => handleQuickDemoSelect('VE10088')}
+                    onClick={() => handleQuickDemoSelect('VE10099')}
                   >
-                    Ananya (Winner)
+                    Priya (Deficit)
                   </button>
                   <button
                     type="button"
-                    className={`${styles.demoChip} ${styles.adminChip}`}
-                    onClick={() => handleQuickDemoSelect('VE_ADMIN')}
+                    className={styles.demoChip}
+                    onClick={() => handleQuickDemoSelect('VE10042')}
                   >
-                    Admin (Director)
+                    Rohan (Joined)
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.demoChip}
+                    onClick={() => handleQuickDemoSelect('VE10088')}
+                  >
+                    Ananya (Winner)
                   </button>
                 </div>
               </div>
@@ -286,12 +304,23 @@ export const AuthModal = () => {
               <ArrowRight size={16} />
             </button>
 
-            {/* Quick Demo Accounts Selection on Sign Up (Demo Mode Only) */}
+            {/* Direct Admin & Demo Accounts Selection on Sign Up */}
             {isDemoMode && (
               <div className={styles.demoSection}>
+                <div className={styles.adminDirectWrap}>
+                  <button
+                    type="button"
+                    className={styles.adminDirectBtn}
+                    onClick={() => handleQuickDemoSelect('VE_ADMIN')}
+                    disabled={loading}
+                  >
+                    <ShieldCheck size={16} />
+                    <span>👑 Direct Admin Login (1-Click)</span>
+                  </button>
+                </div>
                 <span className={styles.demoTitle}>
                   <Sparkles size={12} style={{ display: 'inline', marginRight: '4px' }} />
-                  Instant Demo Sign-In (Testing):
+                  Demo Persona Shortcuts:
                 </span>
                 <div className={styles.demoChips}>
                   <button
@@ -304,16 +333,23 @@ export const AuthModal = () => {
                   <button
                     type="button"
                     className={styles.demoChip}
-                    onClick={() => handleQuickDemoSelect('VE10088')}
+                    onClick={() => handleQuickDemoSelect('VE10099')}
                   >
-                    Ananya (Winner)
+                    Priya (Deficit)
                   </button>
                   <button
                     type="button"
-                    className={`${styles.demoChip} ${styles.adminChip}`}
-                    onClick={() => handleQuickDemoSelect('VE_ADMIN')}
+                    className={styles.demoChip}
+                    onClick={() => handleQuickDemoSelect('VE10042')}
                   >
-                    Admin (Director)
+                    Rohan (Joined)
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.demoChip}
+                    onClick={() => handleQuickDemoSelect('VE10088')}
+                  >
+                    Ananya (Winner)
                   </button>
                 </div>
               </div>

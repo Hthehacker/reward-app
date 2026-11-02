@@ -81,7 +81,7 @@ app.use('/api/admin', adminRoutes);
 
 // Root health check
 app.get('/api/health', (req, res) => {
-  const isDemo = process.env.NODE_ENV !== 'production' && process.env.DEMO_MODE === 'true';
+  const isDemo = process.env.DEMO_MODE !== 'false';
   res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),

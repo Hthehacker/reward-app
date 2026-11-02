@@ -92,7 +92,7 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { userId, email, password } = req.body;
-    const isDemoMode = process.env.DEMO_MODE === 'true' && process.env.NODE_ENV !== 'production';
+    const isDemoMode = process.env.DEMO_MODE !== 'false';
 
     let query = {};
     if (userId) {
@@ -218,7 +218,7 @@ export const refresh = async (req, res, next) => {
 /** Demo users list (non-production and demo mode only) **/
 export const getDemoUsers = async (req, res, next) => {
   try {
-    if (process.env.NODE_ENV === 'production' || process.env.DEMO_MODE !== 'true') {
+    if (process.env.DEMO_MODE === 'false') {
       return res.status(403).json({
         success: false,
         error: { code: 'FORBIDDEN_IN_PRODUCTION', message: 'Demo persona list is disabled in production or when demo mode is inactive.' }
