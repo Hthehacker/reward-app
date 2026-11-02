@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { api } from '../../services/api.js';
+import { isDemoMode } from '../../config/demoConfig.js';
 import logo from '../../assets/veloop-logo.svg';
 import styles from './Dashboard.module.css';
 
@@ -205,15 +206,17 @@ const AdminDashboard = () => {
           </div>
 
           <div className={styles.topBarRight}>
-            <button
-              onClick={handleResetDemo}
-              disabled={resetting}
-              className={styles.resetDemoBtn}
-              title="Re-seed initial demo dataset"
-            >
-              <RefreshCw size={14} className={resetting ? 'fa-spin' : ''} />
-              <span>{resetting ? 'Resetting…' : 'Reset Demo'}</span>
-            </button>
+            {isDemoMode && (
+              <button
+                onClick={handleResetDemo}
+                disabled={resetting}
+                className={styles.resetDemoBtn}
+                title="Re-seed initial demo dataset"
+              >
+                <RefreshCw size={14} className={resetting ? 'fa-spin' : ''} />
+                <span>{resetting ? 'Resetting…' : 'Reset Demo'}</span>
+              </button>
+            )}
 
             <Link to="/" className={styles.viewSiteBtn} target="_blank" rel="noreferrer">
               <ExternalLink size={14} />

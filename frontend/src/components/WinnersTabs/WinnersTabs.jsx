@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, History, ShieldCheck, CheckCircle2, Clock } from 'lucide-react';
+import { Trophy, History, CheckCircle2, Clock } from 'lucide-react';
 import { api } from '../../services/api.js';
 import styles from './WinnersTabs.module.css';
 
@@ -7,13 +7,11 @@ export const WinnersTabs = ({ currentGiveaway }) => {
   const [activeTab, setActiveTab] = useState('CURRENT'); // 'CURRENT' | 'PREVIOUS'
   const [currentWinnersData, setCurrentWinnersData] = useState(null);
   const [previousWinners, setPreviousWinners] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!currentGiveaway) return;
 
     const fetchWinners = async () => {
-      setLoading(true);
       try {
         const [currRes, prevRes] = await Promise.all([
           api.getGiveawayWinners(currentGiveaway.giveawayId),
@@ -21,10 +19,9 @@ export const WinnersTabs = ({ currentGiveaway }) => {
         ]);
         setCurrentWinnersData(currRes.data);
         setPreviousWinners(prevRes.data || []);
-      } catch (err) {
-        console.error('Failed fetching winners data:', err);
-      } finally {
-        setLoading(false);
+      } catch {
+        setCurrentWinnersData(null);
+        setPreviousWinners([]);
       }
     };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Gift, Users, Trophy, Hourglass } from 'lucide-react';
 import styles from './GiveawayStats.module.css';
 
-export const GiveawayStats = ({ stats, giveaway }) => {
+export const GiveawayStats = ({ stats }) => {
   return (
     <section className={styles.statsSection}>
       <div className="container">

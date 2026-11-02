@@ -16,6 +16,18 @@ dotenv.config();
 
 export const seedDatabase = async () => {
   try {
+    // Production & Database Safety Lock (Req: Reset operations cannot accidentally affect real production data)
+    const isProduction = process.env.NODE_ENV === 'production';
+    const dbName = mongoose.connection.name || '';
+    const isProdDb = /prod|production/i.test(dbName) || /prod|production/i.test(process.env.MONGO_URI || '');
+
+    if (isProduction && process.env.ALLOW_PROD_SEED !== 'true') {
+      throw new Error('[Safety Lock]: seedDatabase execution is strictly blocked in production environment.');
+    }
+    if (isProdDb && process.env.ALLOW_PROD_SEED !== 'true') {
+      throw new Error('[Safety Lock]: seedDatabase execution is strictly blocked on production-designated database.');
+    }
+
     console.log('[Seed]: Clearing existing giveaway database collections...');
     await Promise.all([
       User.deleteMany({}),
@@ -347,6 +359,49 @@ export const seedDatabase = async () => {
       transactionId: rohanTxnId
     });
 
+    // Seed Meera (VE10012) as already participated (AirPods Pro) to represent Non-Winner persona
+    const meeraTxnId = `TXN-SEED-${Date.now()}-1012`;
+    await GiveawayEntryTransaction.create({
+      transactionId: meeraTxnId,
+      userId: 'VE10012',
+      giveawayId: 'GW-2026-08',
+      prizeId: 'PRIZE-003',
+      currency: 'SVE',
+      amount: 500,
+      type: 'ENTRY_FEE',
+      status: 'SUCCESS',
+      balanceBefore: 1300,
+      balanceAfter: 800,
+      note: 'Seed entry for AirPods Pro (2nd Gen)'
+    });
+
+    await GiveawayParticipation.create({
+      userId: 'VE10012',
+      userRef: createdUsers[5]._id,
+      giveawayId: 'GW-2026-08',
+      prizeId: 'PRIZE-003',
+      entryCurrency: 'SVE',
+      entryAmount: 500,
+      deviceHash: 'dev_fp_meera_nonwin',
+      ip: '127.0.0.1',
+      status: 'ACTIVE',
+      transactionId: meeraTxnId
+    });
+
+    // Also seed Meera's participation in ended giveaway GW-2026-07 as non-winner
+    await GiveawayParticipation.create({
+      userId: 'VE10012',
+      userRef: createdUsers[5]._id,
+      giveawayId: 'GW-2026-07',
+      prizeId: 'PRIZE-001',
+      entryCurrency: 'VE',
+      entryAmount: 250,
+      deviceHash: 'dev_fp_meera_nonwin',
+      ip: '127.0.0.1',
+      status: 'ACTIVE',
+      transactionId: `TXN-SEED-${Date.now()}-1012-PAST`
+    });
+
     console.log('[Seed]: Seeding previous giveaway winners for Historical Tabs...');
     // Historical Winners for August Reward Rush (GW-2026-07)
     await GiveawayWinner.create([
@@ -464,8 +519,12 @@ export const seedDatabase = async () => {
   }
 };
 
-// Auto-run if executed directly
-if (process.argv[1].endsWith('seedData.js')) {
+// Auto-run if executed directly (e.g. npm run seed)
+if (process.argv[1] && process.argv[1].endsWith('seedData.js')) {
+  if (process.env.NODE_ENV === 'production' && process.env.ALLOW_PROD_SEED !== 'true') {
+    console.error('CRITICAL: Direct seed script execution is strictly forbidden in production.');
+    process.exit(1);
+  }
   mongoose
     .connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/veloop_rewards')
     .then(async () => {

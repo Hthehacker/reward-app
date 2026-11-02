@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Giveaway from '../models/Giveaway.js';
 import Prize from '../models/Prize.js';
 import GiveawayParticipation from '../models/GiveawayParticipation.js';
@@ -290,6 +291,28 @@ export const getFraudEvents = async (req, res, next) => {
 
 export const resetDemo = async (req, res, next) => {
   try {
+    if (process.env.NODE_ENV === 'production' || process.env.DEMO_MODE !== 'true') {
+      return res.status(403).json({
+        success: false,
+        error: {
+          code: 'FORBIDDEN_IN_PRODUCTION',
+          message: 'Database reset and demo re-seeding is strictly prohibited in production environments or when demo mode is disabled.'
+        }
+      });
+    }
+
+    const dbName = mongoose.connection.name || '';
+    const dbUri = process.env.MONGO_URI || '';
+    if (/prod|production/i.test(dbName) || /prod|production/i.test(dbUri)) {
+      return res.status(403).json({
+        success: false,
+        error: {
+          code: 'FORBIDDEN_PROD_DATABASE',
+          message: 'Database reset is strictly prohibited when connected to a production database.'
+        }
+      });
+    }
+
     await seedDatabase();
     res.json({
       success: true,

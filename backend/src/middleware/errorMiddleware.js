@@ -1,5 +1,10 @@
 export const errorHandler = (err, req, res, next) => {
-  console.error('[Error Caught]:', err.stack || err.message);
+  if (process.env.NODE_ENV !== 'production') {
+    console.error('[Error Caught]:', err.stack || err.message);
+  } else {
+    // Structured production logging without exposing internal stack traces to logs unnecessarily
+    console.error(`[Error]: ${err.name || 'Error'} - ${err.message} (${req.method} ${req.originalUrl})`);
+  }
 
   // MongoDB duplicate key error (E11000)
   if (err.code === 11000) {
@@ -8,6 +13,17 @@ export const errorHandler = (err, req, res, next) => {
       error: {
         code: 'ALREADY_PARTICIPATING',
         message: "You're already participating! You can participate again when a new giveaway event begins."
+      }
+    });
+  }
+
+  // Mongoose CastError (invalid ObjectId or type casting)
+  if (err.name === 'CastError') {
+    return res.status(400).json({
+      success: false,
+      error: {
+        code: 'INVALID_IDENTIFIER',
+        message: `Invalid format provided for field "${err.path}".`
       }
     });
   }
@@ -38,11 +54,17 @@ export const errorHandler = (err, req, res, next) => {
 
   // General server error
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  const isProduction = process.env.NODE_ENV === 'production';
+  const clientMessage =
+    statusCode === 500 && isProduction
+      ? 'An unexpected server error occurred. Please try again later.'
+      : err.message || 'An unexpected server error occurred. Please try again later.';
+
   res.status(statusCode).json({
     success: false,
     error: {
-      code: 'SERVER_ERROR',
-      message: err.message || 'An unexpected server error occurred. Please try again later.'
+      code: err.code || 'SERVER_ERROR',
+      message: clientMessage
     }
   });
 };

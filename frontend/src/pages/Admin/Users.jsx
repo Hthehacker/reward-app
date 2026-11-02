@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Users as UsersIcon, Shield, Coins, Zap, Search } from 'lucide-react';
 import { api } from '../../services/api.js';
 import styles from './Giveaways.module.css';
 

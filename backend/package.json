@@ -9,7 +9,7 @@
     "dev": "node --watch server.js",
     "seed": "node src/utils/seedData.js",
     "seed-admin": "node src/utils/seedAdmin.js",
-    "test": "jest"
+    "test": "node test-suite.js && node test-coin-management.js && node test-join-flow.js"
   },
   "keywords": ["veloop","rewards","giveaway","fraud-detection","fintech"],
   "author": "VELOOP Team",

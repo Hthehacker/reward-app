@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
   Sparkles,
-  Trophy,
-  Users,
-  Clock,
   ShieldCheck,
   CheckCircle2,
   AlertTriangle,
   ArrowRight,
   Zap,
-  Coins,
   Package,
   FileText
 } from 'lucide-react';
@@ -32,14 +28,17 @@ import styles from './GiveawayDetailPage.module.css';
 
 export const GiveawayDetailPage = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const {
+    isDemoMode,
     user,
     isLoggedIn,
-    login,
     openAuthModal,
     refreshUser,
-    currentGiveaway,
-    showToast
+    showToast,
+    isParticipating: contextIsParticipating,
+    markAsJoined,
+    refreshParticipation
   } = useAuth();
 
   const [giveaway, setGiveaway] = useState(null);
@@ -52,8 +51,8 @@ export const GiveawayDetailPage = () => {
   const [isEarnModalOpen, setIsEarnModalOpen] = useState(false);
 
   // Load giveaway and prize
-  const loadData = async () => {
-    setLoading(true);
+  const loadData = async (silent = false) => {
+    if (!silent) setLoading(true);
     setError(null);
     try {
       const res = await api.getGiveawayById(slug);
@@ -73,14 +72,14 @@ export const GiveawayDetailPage = () => {
         try {
           const partRes = await api.getMyStatus(res.data.giveawayId);
           setParticipationStatus(partRes.data);
-        } catch (e) {
+        } catch {
           setParticipationStatus(null);
         }
       }
     } catch (err) {
       setError(err.message || 'Could not load giveaway details.');
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
@@ -134,7 +133,9 @@ export const GiveawayDetailPage = () => {
   const entryFee = prize.entryFee;
   const hasSufficientBalance = currentBalance >= entryFee;
   const balanceDeficit = Math.max(0, entryFee - currentBalance);
-  const isAlreadyParticipating = participationStatus?.isParticipating;
+  const isAlreadyParticipating =
+    Boolean(participationStatus?.isParticipating) ||
+    Boolean(contextIsParticipating);
   const isGiveawayEnded = giveaway?.status === 'ENDED';
 
   return (
@@ -436,16 +437,23 @@ export const GiveawayDetailPage = () => {
 
       {/* Entry Confirmation Modal */}
       <ParticipationModal
-        isOpen={isJoinModalOpen}
+        isOpen={isJoinModalOpen && !isAlreadyParticipating}
         onClose={() => setIsJoinModalOpen(false)}
         giveawayId={giveaway.giveawayId}
         prize={prize}
         currentBalance={currentBalance}
         currencyLabel={currencyLabel}
-        onJoinSuccess={() => {
+        isAlreadyParticipating={isAlreadyParticipating}
+        onJoinSuccess={(data) => {
+          setIsJoinModalOpen(false);
+          markAsJoined(data);
+          setParticipationStatus({ isParticipating: true, participation: data });
           refreshUser();
-          loadData();
+          if (giveaway?.giveawayId) {
+            refreshParticipation(giveaway.giveawayId, user);
+          }
           showToast(`Successfully joined the ${prize.name} giveaway!`, 'success');
+          navigate('/', { replace: true });
         }}
       />
 
@@ -456,8 +464,8 @@ export const GiveawayDetailPage = () => {
         targetCurrency={currencyCode}
       />
 
-      {/* Floating Demo Switcher */}
-      <UserStateDemoSwitcher />
+      {/* Floating Demo Switcher (Demo Mode Only) */}
+      {isDemoMode && <UserStateDemoSwitcher />}
 
       {/* Authentication & Admin Modals */}
       <AuthModal />

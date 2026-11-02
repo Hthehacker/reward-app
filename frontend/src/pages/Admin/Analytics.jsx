@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BarChart3, Users, Gift, Trophy, Activity, ShieldAlert } from 'lucide-react';
+import { Users, Gift, Trophy, Activity } from 'lucide-react';
 import { api } from '../../services/api.js';
 import styles from './Giveaways.module.css';
 

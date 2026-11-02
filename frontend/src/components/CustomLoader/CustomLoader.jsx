@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Award } from 'lucide-react';
 import loaderGiftBox from '../../assets/loader-gift-box.webp';
 import styles from './CustomLoader.module.css';
 

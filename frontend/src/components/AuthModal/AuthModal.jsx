@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Lock, Mail, User, Eye, EyeOff, ShieldCheck, ArrowRight, Sparkles } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
+import { isDemoMode } from '../../config/demoConfig.js';
 import styles from './AuthModal.module.css';
 
 export const AuthModal = () => {
@@ -146,7 +147,7 @@ export const AuthModal = () => {
                 <input
                   type="text"
                   className={styles.inputField}
-                  placeholder="e.g. aarav.sharma@veloop.io or VE10025"
+                  placeholder={isDemoMode ? "e.g. aarav.sharma@veloop.io or VE10025" : "e.g. yourname@example.com"}
                   value={emailOrId}
                   onChange={(e) => setEmailOrId(e.target.value)}
                   autoFocus
@@ -157,7 +158,7 @@ export const AuthModal = () => {
             <div className={styles.inputGroup}>
               <div className={styles.labelRow}>
                 <label className={styles.label}>Password</label>
-                <span className={styles.hintText}>Default for demo: Veloop2026!</span>
+                {isDemoMode && <span className={styles.hintText}>Default for demo: Veloop2026!</span>}
               </div>
               <div className={styles.inputWrap}>
                 <Lock size={16} className={styles.inputIcon} />
@@ -184,36 +185,38 @@ export const AuthModal = () => {
               <ArrowRight size={16} />
             </button>
 
-            {/* Quick Demo Accounts Selection */}
-            <div className={styles.demoSection}>
-              <span className={styles.demoTitle}>
-                <Sparkles size={12} style={{ display: 'inline', marginRight: '4px' }} />
-                Instant Demo Sign-In:
-              </span>
-              <div className={styles.demoChips}>
-                <button
-                  type="button"
-                  className={styles.demoChip}
-                  onClick={() => handleQuickDemoSelect('VE10025')}
-                >
-                  Aarav (Member)
-                </button>
-                <button
-                  type="button"
-                  className={styles.demoChip}
-                  onClick={() => handleQuickDemoSelect('VE10088')}
-                >
-                  Ananya (Winner)
-                </button>
-                <button
-                  type="button"
-                  className={`${styles.demoChip} ${styles.adminChip}`}
-                  onClick={() => handleQuickDemoSelect('VE_ADMIN')}
-                >
-                  Admin (Director)
-                </button>
+            {/* Quick Demo Accounts Selection (Demo Mode Only) */}
+            {isDemoMode && (
+              <div className={styles.demoSection}>
+                <span className={styles.demoTitle}>
+                  <Sparkles size={12} style={{ display: 'inline', marginRight: '4px' }} />
+                  Instant Demo Sign-In:
+                </span>
+                <div className={styles.demoChips}>
+                  <button
+                    type="button"
+                    className={styles.demoChip}
+                    onClick={() => handleQuickDemoSelect('VE10025')}
+                  >
+                    Aarav (Member)
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.demoChip}
+                    onClick={() => handleQuickDemoSelect('VE10088')}
+                  >
+                    Ananya (Winner)
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.demoChip} ${styles.adminChip}`}
+                    onClick={() => handleQuickDemoSelect('VE_ADMIN')}
+                  >
+                    Admin (Director)
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </form>
         ) : (
           /* Register Form */

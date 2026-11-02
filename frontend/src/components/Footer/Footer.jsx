@@ -64,7 +64,7 @@ export const Footer = () => {
 
         <div className={styles.bottomRow}>
           <span className={styles.copyText}>
-            © {new Date().getFullYear()} VELOOP Rewards Ecosystem. All rights reserved. Not affiliated with Apple or Amazon.
+            © 2026 VELOOP Rewards Ecosystem. All rights reserved. Not affiliated with Apple or Amazon.
           </span>
           <span className={styles.supportNotice}>
             Have questions? Contact{' '}

@@ -3,18 +3,14 @@ import {
   Trophy,
   Plus,
   Search,
-  Filter,
   Edit2,
   Trash2,
   AlertTriangle,
   CheckCircle2,
   X,
-  Coins,
-  Zap,
   Tag,
   Package,
-  Layers,
-  Sparkles
+  Layers
 } from 'lucide-react';
 import { api } from '../../services/api.js';
 import { useAuth } from '../../context/AuthContext.jsx';

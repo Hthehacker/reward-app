@@ -3,7 +3,11 @@ import { Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import PrizeCard from '../ParticipationModal/PrizeCard/PrizeCard.jsx';
 import styles from './FeaturedGiveaways.module.css';
 
-export const FeaturedGiveaways = ({ prizes = [], giveawayStatus = 'ACTIVE' }) => {
+export const FeaturedGiveaways = ({
+  prizes = [],
+  giveawayStatus = 'ACTIVE',
+  onJoinPrize
+}) => {
   const [filter, setFilter] = useState('ALL');
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -124,6 +128,7 @@ export const FeaturedGiveaways = ({ prizes = [], giveawayStatus = 'ACTIVE' }) =>
                 key={prize.prizeId || prize._id}
                 prize={prize}
                 giveawayStatus={giveawayStatus}
+                onJoinPrize={onJoinPrize}
               />
             ))
           ) : (

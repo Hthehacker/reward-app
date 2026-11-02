@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
 import GiveawayPage from './pages/Giveaway/GiveawayPage.jsx';
 import GiveawayDetailPage from './pages/GiveawayDetail/GiveawayDetailPage.jsx';
-import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AdminRoute from './components/AdminRoute.jsx';
 import AdminDashboard from './pages/Admin/Dashboard.jsx';
 import AdminGiveaways from './pages/Admin/Giveaways.jsx';

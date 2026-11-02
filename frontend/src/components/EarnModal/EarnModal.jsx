@@ -7,10 +7,8 @@ import {
   Coins,
   Gift,
   Share2,
-  Award,
   ArrowRight,
   TrendingUp,
-  Clock,
   Loader2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -70,9 +68,7 @@ const QUEST_ACTIVITIES = [
   }
 ];
 
-export const EarnModal = ({ isOpen, onClose, targetCurrency = 'VE' }) => {
-  if (!isOpen) return null;
-
+export const EarnModal = ({ isOpen, onClose }) => {
   const { user, addBalance, openAuthModal } = useAuth();
   const [claimingId, setClaimingId] = useState(null);
   const [completedIds, setCompletedIds] = useState(() => {
@@ -83,6 +79,8 @@ export const EarnModal = ({ isOpen, onClose, targetCurrency = 'VE' }) => {
       return [];
     }
   });
+
+  if (!isOpen) return null;
 
   const handleClaim = async (quest) => {
     if (!user) {

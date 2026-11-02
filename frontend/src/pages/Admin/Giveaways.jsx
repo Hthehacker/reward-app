@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Gift,
-  Plus,
   Play,
-  CheckCircle2,
   Clock,
-  Archive,
   Trophy,
-  ExternalLink,
-  Edit2,
-  Trash2,
   Users
 } from 'lucide-react';
 import { api } from '../../services/api.js';

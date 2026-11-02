@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, Award, Sparkles } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import { api } from '../../services/api.js';
 import styles from './WinnerSlider.module.css';
 
@@ -20,7 +20,7 @@ export const WinnerSlider = () => {
         if (res.data && res.data.length > 0) {
           setMessages(res.data);
         }
-      } catch (e) {
+      } catch {
         // Fallback already pre-set
       }
     };

@@ -6,15 +6,10 @@ import {
   Minus,
   ArrowRight,
   RefreshCw,
-  TrendingUp,
   Users as UsersIcon,
   History,
   X,
-  CheckCircle,
-  AlertTriangle,
-  Zap,
-  Filter,
-  DollarSign
+  AlertTriangle
 } from 'lucide-react';
 import { api } from '../../services/api.js';
 import { useAuth } from '../../context/AuthContext.jsx';

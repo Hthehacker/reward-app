@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Trophy, ArrowRight, Sparkles, AlertCircle } from 'lucide-react';
+import { Trophy, ArrowRight, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { api } from '../../services/api.js';
 import { scrollToSection } from '../../utils/scrollHelper.js';
@@ -18,6 +18,7 @@ import FAQ from '../../components/FAQ/FAQ.jsx';
 import Footer from '../../components/Footer/Footer.jsx';
 import CustomLoader from '../../components/CustomLoader/CustomLoader.jsx';
 import PrizeClaimModal from '../../components/PrizeClaimModal/PrizeClaimModal.jsx';
+import ParticipationModal from '../../components/ParticipationModal/ParticipationModal.jsx';
 import EarnModal from '../../components/EarnModal/EarnModal.jsx';
 import UserStateDemoSwitcher from '../../components/UserStateDemoSwitcher/UserStateDemoSwitcher.jsx';
 import AuthModal from '../../components/AuthModal/AuthModal.jsx';
@@ -27,18 +28,32 @@ import styles from './GiveawayPage.module.css';
 
 export const GiveawayPage = () => {
   const {
+    isDemoMode,
     user,
     currentGiveaway,
     giveawayLoading,
     giveawayError,
     refreshGiveaway,
-    toastMessage
+    toastMessage,
+    showToast,
+    refreshUser,
+    isParticipating,
+    markAsJoined,
+    refreshParticipation
   } = useAuth();
 
   const [stats, setStats] = useState(null);
   const [claimStatusData, setClaimStatusData] = useState(null);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const [isEarnModalOpen, setIsEarnModalOpen] = useState(false);
+  const [selectedPrizeForJoin, setSelectedPrizeForJoin] = useState(null);
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
+
+  const handleOpenJoinModal = (prize) => {
+    if (!prize || isParticipating) return;
+    setSelectedPrizeForJoin(prize);
+    setIsJoinModalOpen(true);
+  };
 
   const location = useLocation();
 
@@ -219,6 +234,7 @@ export const GiveawayPage = () => {
       <FeaturedGiveaways
         prizes={currentGiveaway?.prizes || []}
         giveawayStatus={currentGiveaway?.status}
+        onJoinPrize={handleOpenJoinModal}
       />
 
       {/* How to Participate Visual Timeline */}
@@ -252,14 +268,52 @@ export const GiveawayPage = () => {
         />
       )}
 
+      {/* Entry Confirmation Modal (Main Page Quick Join) */}
+      {selectedPrizeForJoin && (
+        <ParticipationModal
+          isOpen={isJoinModalOpen && !isParticipating}
+          onClose={() => {
+            setIsJoinModalOpen(false);
+            setSelectedPrizeForJoin(null);
+          }}
+          giveawayId={currentGiveaway?.giveawayId}
+          prize={selectedPrizeForJoin}
+          currentBalance={
+            user?.balances
+              ? selectedPrizeForJoin.entryCurrency === 'VE'
+                ? user.balances.VEs
+                : selectedPrizeForJoin.entryCurrency === 'SVE'
+                ? user.balances.SVEs
+                : user.balances.tokens
+              : 0
+          }
+          currencyLabel={
+            selectedPrizeForJoin.entryCurrency === 'TOKEN'
+              ? 'Tokens'
+              : `${selectedPrizeForJoin.entryCurrency || 'VE'}s`
+          }
+          isAlreadyParticipating={isParticipating}
+          onJoinSuccess={(data) => {
+            setIsJoinModalOpen(false);
+            setSelectedPrizeForJoin(null);
+            markAsJoined(data);
+            refreshUser();
+            if (currentGiveaway?.giveawayId) {
+              refreshParticipation(currentGiveaway.giveawayId, user);
+            }
+            showToast(`Successfully joined the ${selectedPrizeForJoin.name} giveaway!`, 'success');
+          }}
+        />
+      )}
+
       {/* Earn Balance Modal */}
       <EarnModal
         isOpen={isEarnModalOpen}
         onClose={() => setIsEarnModalOpen(false)}
       />
 
-      {/* Floating Demo Switcher */}
-      <UserStateDemoSwitcher />
+      {/* Floating Demo Switcher (Demo Mode Only) */}
+      {isDemoMode && <UserStateDemoSwitcher />}
 
       {/* Authentication & Admin Modals */}
       <AuthModal />

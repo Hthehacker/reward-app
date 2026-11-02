@@ -21,7 +21,7 @@ export const Countdown = ({ targetDate, onExpire, label = "Ends In" }) => {
     };
   };
 
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft());
 
   useEffect(() => {
     const timer = setInterval(() => {

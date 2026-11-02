@@ -92,20 +92,51 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { userId, email, password } = req.body;
+    const isDemoMode = process.env.DEMO_MODE === 'true' && process.env.NODE_ENV !== 'production';
+
     let query = {};
-    if (userId) query.userId = userId;
-    else if (email) query.email = email.toLowerCase().trim();
-    else query.userId = 'VE10025'; // demo fallback
+    if (userId) {
+      query.userId = userId.trim();
+    } else if (email) {
+      query.email = email.toLowerCase().trim();
+    } else {
+      if (!isDemoMode) {
+        return res.status(400).json({
+          success: false,
+          error: { code: 'CREDENTIALS_REQUIRED', message: 'Email address or User ID is required to sign in.' }
+        });
+      }
+      query.userId = 'VE10025'; // non-production demo fallback
+    }
+
+    // Strict Password Validation:
+    // In production or when demo mode is inactive, password is unconditionally required for every account.
+    // In demo mode (staging/dev only), passwordless login is allowed for instant persona switching.
+    if (!isDemoMode && !password) {
+      return res.status(400).json({
+        success: false,
+        error: { code: 'PASSWORD_REQUIRED', message: 'Password is required to sign in.' }
+      });
+    }
+
     const user = await User.findOne(query);
     if (!user) {
-      return res.status(404).json({ success: false, error: { code: 'USER_NOT_FOUND', message: 'Account not found with the provided credentials.' } });
+      return res.status(404).json({
+        success: false,
+        error: { code: 'USER_NOT_FOUND', message: 'Account not found with the provided credentials.' }
+      });
     }
+
     if (password) {
       const match = await bcrypt.compare(password, user.password);
       if (!match) {
-        return res.status(401).json({ success: false, error: { code: 'INVALID_CREDENTIALS', message: 'Incorrect password.' } });
+        return res.status(401).json({
+          success: false,
+          error: { code: 'INVALID_CREDENTIALS', message: 'Incorrect password.' }
+        });
       }
     }
+
     const tokens = await issueTokens(res, user);
     res.json({
       success: true,
@@ -184,10 +215,16 @@ export const refresh = async (req, res, next) => {
   }
 };
 
-/** Demo users list (public) **/
+/** Demo users list (non-production and demo mode only) **/
 export const getDemoUsers = async (req, res, next) => {
   try {
-    const users = await User.find().select('-password').sort({ userId: 1 });
+    if (process.env.NODE_ENV === 'production' || process.env.DEMO_MODE !== 'true') {
+      return res.status(403).json({
+        success: false,
+        error: { code: 'FORBIDDEN_IN_PRODUCTION', message: 'Demo persona list is disabled in production or when demo mode is inactive.' }
+      });
+    }
+    const users = await User.find().select('-password -refreshTokenHash').sort({ userId: 1 });
     res.json({ success: true, data: users });
   } catch (e) {
     next(e);

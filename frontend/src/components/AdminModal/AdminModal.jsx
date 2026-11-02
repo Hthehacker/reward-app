@@ -2,19 +2,14 @@ import React, { useState, useEffect } from 'react';
 import {
   X,
   ShieldAlert,
-  Plus,
   Trash2,
   Edit,
-  Sparkles,
   RefreshCw,
-  Clock,
-  Trophy,
-  CheckCircle2,
-  AlertTriangle,
-  FileText
+  Trophy
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { api } from '../../services/api.js';
+import { isDemoMode } from '../../config/demoConfig.js';
 import styles from './AdminModal.module.css';
 
 export const AdminModal = () => {
@@ -28,9 +23,7 @@ export const AdminModal = () => {
 
   const [activeTab, setActiveTab] = useState('giveaways'); // 'giveaways' | 'lifecycle' | 'logs'
   const [giveawaysList, setGiveawaysList] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   // Form state for Create / Edit Giveaway
   const [isEditing, setIsEditing] = useState(false);
@@ -48,15 +41,11 @@ export const AdminModal = () => {
 
   const fetchAdminData = async () => {
     if (!isAdmin) return;
-    setLoading(true);
-    setError(null);
     try {
       const res = await api.adminGetGiveaways();
       if (res.data) setGiveawaysList(res.data);
-    } catch (err) {
-      setError(err.message || 'Could not load admin giveaways');
-    } finally {
-      setLoading(false);
+    } catch {
+      // Data unavailable
     }
   };
 
@@ -68,8 +57,8 @@ export const AdminModal = () => {
       ]);
       if (logsRes.data) setAuditLogs(logsRes.data);
       if (fraudRes.data) setFraudEvents(fraudRes.data);
-    } catch (e) {
-      console.warn('Failed loading logs', e);
+    } catch {
+      // Logs unavailable
     }
   };
 
@@ -533,27 +522,29 @@ export const AdminModal = () => {
                 </div>
               )}
 
-              {/* Reset Demo DB */}
-              <div className="mt-4 p-3 rounded" style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-                <div className="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h5 style={{ margin: 0, color: '#fca5a5', fontSize: '0.9rem', fontWeight: 700 }}>
-                      Reset Demo Seed Database
-                    </h5>
-                    <p style={{ margin: '2px 0 0 0', color: '#94a3b8', fontSize: '0.78rem' }}>
-                      Wipes current test state and restores verified default demo records.
-                    </p>
+              {/* Reset Demo DB (Demo Mode Only) */}
+              {isDemoMode && (
+                <div className="mt-4 p-3 rounded" style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h5 style={{ margin: 0, color: '#fca5a5', fontSize: '0.9rem', fontWeight: 700 }}>
+                        Reset Demo Seed Database
+                      </h5>
+                      <p style={{ margin: '2px 0 0 0', color: '#94a3b8', fontSize: '0.78rem' }}>
+                        Wipes current test state and restores verified default demo records.
+                      </p>
+                    </div>
+                    <button
+                      className={styles.delBtn}
+                      style={{ padding: '8px 16px', borderRadius: '8px' }}
+                      onClick={handleResetDemoDb}
+                      disabled={actionLoading}
+                    >
+                      Reset & Seed DB
+                    </button>
                   </div>
-                  <button
-                    className={styles.delBtn}
-                    style={{ padding: '8px 16px', borderRadius: '8px' }}
-                    onClick={handleResetDemoDb}
-                    disabled={actionLoading}
-                  >
-                    Reset & Seed DB
-                  </button>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         )}

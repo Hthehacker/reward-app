@@ -81,11 +81,14 @@ app.use('/api/admin', adminRoutes);
 
 // Root health check
 app.get('/api/health', (req, res) => {
+  const isDemo = process.env.NODE_ENV !== 'production' && process.env.DEMO_MODE === 'true';
   res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
     service: 'VELOOP Rewards Giveaway API',
-    version: '1.0.0'
+    version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
+    demoMode: isDemo
   });
 });
 

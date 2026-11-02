@@ -2,7 +2,7 @@ import rateLimit from 'express-rate-limit';
 
 export const joinRateLimiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
-  max: 12, // limit each IP to 12 requests per windowMs
+  max: process.env.NODE_ENV === 'production' ? 12 : 200, // limit each IP to 12 requests per minute in prod, generous for dev/tests
   standardHeaders: true,
   legacyHeaders: false,
   message: {

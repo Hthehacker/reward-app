@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Trophy, Sparkles } from 'lucide-react';
+import { ArrowRight, Trophy, Sparkles, CheckCircle2 } from 'lucide-react';
+import { useAuth } from '../../../context/AuthContext.jsx';
 import styles from './PrizeCard.module.css';
 
-export const PrizeCard = ({ prize, giveawayStatus = 'ACTIVE' }) => {
+export const PrizeCard = ({ prize, giveawayStatus = 'ACTIVE', onJoinPrize }) => {
+  const { user, isParticipating, openAuthModal } = useAuth();
   if (!prize) return null;
 
   const isFirstPrize = prize.position?.toLowerCase().includes('1st');
@@ -15,6 +17,7 @@ export const PrizeCard = ({ prize, giveawayStatus = 'ACTIVE' }) => {
   };
 
   const isEnded = giveawayStatus === 'ENDED';
+  const isJoined = Boolean(isParticipating);
 
   return (
     <div className={styles.card}>
@@ -27,10 +30,18 @@ export const PrizeCard = ({ prize, giveawayStatus = 'ACTIVE' }) => {
           {isFirstPrize && <Sparkles size={11} style={{ marginRight: '4px' }} />}
           {prize.position}
         </span>
-        <span className={styles.winnerCountBadge}>
-          <Trophy size={13} />
-          {prize.winnerCount} {prize.winnerCount === 1 ? 'Winner' : 'Winners'}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {isJoined && !isEnded && (
+            <span className={styles.joinedBadge}>
+              <CheckCircle2 size={11} />
+              Joined
+            </span>
+          )}
+          <span className={styles.winnerCountBadge}>
+            <Trophy size={13} />
+            {prize.winnerCount} {prize.winnerCount === 1 ? 'Winner' : 'Winners'}
+          </span>
+        </div>
       </div>
 
       {/* Prize Visual with fixed aspect ratio container */}
@@ -65,15 +76,58 @@ export const PrizeCard = ({ prize, giveawayStatus = 'ACTIVE' }) => {
         </div>
       </div>
 
-      {/* Footer CTA: Leads to Dedicated Details Page */}
+      {/* Footer CTA: Leads to Dedicated Details Page or Quick Join */}
       <div className={styles.cardFooter}>
-        <Link
-          to={`/giveaway/${prize.slug}`}
-          className={`${styles.joinBtn} ${isEnded ? styles.joinBtnEnded : ''}`}
-        >
-          <span>{isEnded ? 'View Results' : 'View Details & Join'}</span>
-          <ArrowRight size={15} className={styles.arrowIcon} />
-        </Link>
+        {isEnded ? (
+          <Link
+            to={`/giveaway/${prize.slug}`}
+            className={`${styles.joinBtn} ${styles.joinBtnEnded}`}
+          >
+            <span>View Results</span>
+            <ArrowRight size={15} className={styles.arrowIcon} />
+          </Link>
+        ) : isJoined ? (
+          <Link
+            to={`/giveaway/${prize.slug}`}
+            className={`${styles.joinBtn} ${styles.joinBtnJoined}`}
+          >
+            <CheckCircle2 size={15} />
+            <span>Joined</span>
+          </Link>
+        ) : onJoinPrize ? (
+          <div className={styles.dualBtnRow}>
+            <Link
+              to={`/giveaway/${prize.slug}`}
+              className={styles.detailsBtn}
+              title="View prize specs & details"
+            >
+              Details
+            </Link>
+            <button
+              type="button"
+              className={styles.joinBtn}
+              onClick={(e) => {
+                e.preventDefault();
+                if (!user || user.userId === 'VISITOR') {
+                  openAuthModal('login');
+                  return;
+                }
+                onJoinPrize(prize);
+              }}
+            >
+              <span>Join ({prize.entryFee} {formatCurrencyLabel(prize.entryCurrency)})</span>
+              <ArrowRight size={14} className={styles.arrowIcon} />
+            </button>
+          </div>
+        ) : (
+          <Link
+            to={`/giveaway/${prize.slug}`}
+            className={styles.joinBtn}
+          >
+            <span>View Details & Join</span>
+            <ArrowRight size={15} className={styles.arrowIcon} />
+          </Link>
+        )}
       </div>
     </div>
   );

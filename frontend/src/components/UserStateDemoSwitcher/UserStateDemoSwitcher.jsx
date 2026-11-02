@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Sliders, RefreshCw, X, Shield, Sparkles, ShieldAlert } from 'lucide-react';
+import { Sliders, RefreshCw, X, Sparkles, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { api } from '../../services/api.js';
+import { isDemoMode } from '../../config/demoConfig.js';
 import styles from './UserStateDemoSwitcher.module.css';
 
 const PRESET_USER_PROFILES = [
@@ -16,6 +17,10 @@ const PRESET_USER_PROFILES = [
 ];
 
 export const UserStateDemoSwitcher = () => {
+  if (!isDemoMode) {
+    return null;
+  }
+
   const [isOpen, setIsOpen] = useState(false);
   const {
     user,

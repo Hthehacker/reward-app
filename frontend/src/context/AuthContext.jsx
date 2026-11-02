@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { api } from '../services/api.js';
+import { isDemoMode } from '../config/demoConfig.js';
 
 // Create a context for authentication state
 const AuthContext = createContext();
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }) => {
   const [giveawayError, setGiveawayError] = useState(null);
   const [serverTime, setServerTime] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
+  const [participationStatus, setParticipationStatus] = useState(null);
 
   // Auth & admin modals
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -51,11 +53,12 @@ export const AuthProvider = ({ children }) => {
 
   // ---------- Data Fetching ----------
   const fetchDemoUsers = async () => {
+    if (!isDemoMode) return;
     try {
       const res = await api.getDemoUsers();
       if (res.data) setDemoUsers(res.data);
-    } catch (e) {
-      console.warn('Failed loading demo users', e);
+    } catch {
+      // Demo users list unavailable (e.g. in production mode)
     }
   };
 
@@ -71,6 +74,36 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setGiveawayLoading(false);
     }
+  };
+
+  const checkParticipation = async (giveawayId, activeUser) => {
+    const currentUser = activeUser !== undefined ? activeUser : user;
+    const currentGId = giveawayId || currentGiveaway?.giveawayId;
+
+    if (!currentUser || !currentGId || currentUser.role === 'admin' || currentUser.userId === 'VISITOR') {
+      setParticipationStatus(null);
+      return null;
+    }
+
+    try {
+      const res = await api.getMyStatus(currentGId);
+      if (res && res.data) {
+        setParticipationStatus(res.data);
+        return res.data;
+      }
+    } catch {
+      setParticipationStatus(null);
+      return null;
+    }
+  };
+
+  const markAsJoined = (joinData) => {
+    setParticipationStatus((prev) => ({
+      ...(prev || {}),
+      isParticipating: true,
+      participation: joinData?.participation || joinData,
+      entryCount: 1
+    }));
   };
 
   // ---------- Auth Operations ----------
@@ -106,7 +139,6 @@ export const AuthProvider = ({ children }) => {
         return res.data;
       }
     } catch (e) {
-      console.error('Login error:', e);
       showToast(e.message || 'Login failed', 'error');
       throw e;
     }
@@ -115,23 +147,27 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await api.logout();
-    } catch (e) {
-      // ignore server errors – we still clear client state
+    } catch {
+      // ignore server errors – client state is cleared
     }
     setUser(null);
     setIsLoggedIn(false);
     setIsAdmin(false);
+    setParticipationStatus(null);
     localStorage.setItem('veloop_user_id', 'VISITOR');
     showToast('Signed out (Visitor Mode)', 'info');
   };
 
   const switchDemoUser = async (userId) => {
+    if (!isDemoMode) {
+      console.warn('[Security Guard]: Demo persona switching is strictly disabled in production.');
+      return;
+    }
     if (userId === 'VISITOR') {
       await logout();
       return;
     }
     const res = await login({ userId });
-    // login already updates state
     return res;
   };
 
@@ -143,8 +179,7 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(true);
         setIsAdmin(res.data.role === 'admin');
       }
-    } catch (e) {
-      // If refresh fails, treat as unauthenticated
+    } catch {
       setUser(null);
       setIsLoggedIn(false);
       setIsAdmin(false);
@@ -157,36 +192,74 @@ export const AuthProvider = ({ children }) => {
     fetchCurrentGiveaway();
 
     const init = async () => {
-      const storedId = localStorage.getItem('veloop_user_id');
-      if (storedId && storedId !== 'VISITOR') {
-        try {
-          const res = await api.login({ userId: storedId });
-          if (res.data) {
-            setUser(res.data);
-            setIsLoggedIn(true);
-            setIsAdmin(res.data.role === 'admin');
+      // 1. First check if user is already authenticated via session/cookie
+      try {
+        const meRes = await api.getMe();
+        if (meRes && meRes.data) {
+          setUser(meRes.data);
+          setIsLoggedIn(true);
+          setIsAdmin(meRes.data.role === 'admin');
+          localStorage.setItem('veloop_user_id', meRes.data.userId);
+          setIsAuthLoading(false);
+          return;
+        }
+      } catch {
+        // Not authenticated via active cookie session
+      }
+
+      // 2. In demo mode (staging/dev), check stored demo persona or fallback
+      if (isDemoMode) {
+        const storedId = localStorage.getItem('veloop_user_id');
+        if (storedId && storedId !== 'VISITOR') {
+          try {
+            const res = await api.login({ userId: storedId });
+            if (res.data) {
+              setUser(res.data);
+              setIsLoggedIn(true);
+              setIsAdmin(res.data.role === 'admin');
+            }
+          } catch {
+            setUser(null);
+            setIsLoggedIn(false);
+            setIsAdmin(false);
           }
-        } catch (_) {}
-      } else {
-        try {
-          const res = await api.login({ userId: 'VE10025' });
-          if (res.data) {
-            setUser(res.data);
-            setIsLoggedIn(true);
-            setIsAdmin(res.data.role === 'admin');
+        } else if (!storedId) {
+          // Default initial demo user for instant exploratory review
+          try {
+            const res = await api.login({ userId: 'VE10025' });
+            if (res.data) {
+              setUser(res.data);
+              setIsLoggedIn(true);
+              setIsAdmin(res.data.role === 'admin');
+            }
+          } catch {
+            setUser(null);
+            setIsLoggedIn(false);
+            setIsAdmin(false);
           }
-        } catch (_) {}
+        }
       }
       setIsAuthLoading(false);
     };
+
     init();
-    const timeout = setTimeout(() => setIsAuthLoading(false), 8000);
+    const timeout = setTimeout(() => setIsAuthLoading(false), 5000);
     return () => clearTimeout(timeout);
   }, []);
+
+  // Sync participation status whenever user or active giveaway changes
+  useEffect(() => {
+    if (user && user.userId !== 'VISITOR' && user.role !== 'admin' && currentGiveaway?.giveawayId) {
+      checkParticipation(currentGiveaway.giveawayId, user);
+    } else {
+      setParticipationStatus(null);
+    }
+  }, [user?.userId, currentGiveaway?.giveawayId]);
 
   return (
     <AuthContext.Provider
       value={{
+        isDemoMode,
         user,
         isLoggedIn,
         isAdmin,
@@ -197,6 +270,11 @@ export const AuthProvider = ({ children }) => {
         giveawayError,
         serverTime,
         toastMessage,
+        participationStatus,
+        isParticipating: Boolean(participationStatus?.isParticipating),
+        markAsJoined,
+        refreshParticipation: checkParticipation,
+        setParticipationStatus,
         showToast,
         register,
         login,

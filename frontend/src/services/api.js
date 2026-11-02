@@ -33,7 +33,7 @@ const handleResponse = async (res) => {
 };
 
 // Wrapper to automatically refresh access token on 401 and retry the request
-const originalFetch = window.fetch || fetch;
+const originalFetch = typeof window !== 'undefined' && window.fetch ? window.fetch.bind(window) : fetch;
 const authFetch = async (url, options = {}) => {
   const reqOptions = {
     ...options,
@@ -47,7 +47,7 @@ const authFetch = async (url, options = {}) => {
         reqOptions.headers = { ...getHeaders(), ...(options.headers || {}) };
         res = await originalFetch(url, reqOptions);
       }
-    } catch (e) {
+    } catch {
       // Refresh failed or not authenticated
     }
   }
@@ -190,7 +190,9 @@ export const api = {
         credentials: 'include'
       });
       await handleResponse(res);
-    } catch (_) {}
+    } catch {
+      // Ignore network errors on logout to ensure local session cleanup
+    }
     localStorage.removeItem('veloop_access_token');
     localStorage.setItem('veloop_user_id', 'VISITOR');
     return { success: true };

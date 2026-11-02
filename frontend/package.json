@@ -6,13 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:staging": "vite build --mode staging",
     "lint": "oxlint",
     "preview": "vite preview"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
     "canvas-confetti": "^1.9.4",
-    "dotenv": "^18.0.9",
     "lucide-react": "^1.55.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

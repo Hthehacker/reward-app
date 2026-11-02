@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import { X, Trophy, CheckCircle2, Clock, Send, ShieldCheck, Mail, MapPin } from 'lucide-react';
+import { X, Trophy, CheckCircle2, Send, Mail } from 'lucide-react';
 import { api } from '../../services/api.js';
 import styles from './PrizeClaimModal.module.css';
 
 export const PrizeClaimModal = ({ isOpen, onClose, winnerRecord, giveawayTitle, onClaimSuccess }) => {
-  if (!isOpen || !winnerRecord) return null;
-
-  const isPhysical = winnerRecord.prizeType === 'physical';
-
   // Physical form fields
-  const [fullName, setFullName] = useState(winnerRecord.userName || '');
+  const [fullName, setFullName] = useState(winnerRecord?.userName || '');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [completeAddress, setCompleteAddress] = useState('');
   const [city, setCity] = useState('');
@@ -22,6 +18,10 @@ export const PrizeClaimModal = ({ isOpen, onClose, winnerRecord, giveawayTitle, 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [claimResult, setClaimResult] = useState(null);
+
+  if (!isOpen || !winnerRecord) return null;
+
+  const isPhysical = winnerRecord.prizeType === 'physical';
 
   const handleSubmit = async (e) => {
     e.preventDefault();

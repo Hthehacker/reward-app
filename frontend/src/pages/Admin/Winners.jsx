@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Award, Trophy, CheckCircle, Clock } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import { api } from '../../services/api.js';
 import styles from './Giveaways.module.css';
 

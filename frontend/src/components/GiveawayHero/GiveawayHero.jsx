@@ -1,16 +1,19 @@
 import React from 'react';
-import { ArrowRight, Sparkles, Shield, Gift, Trophy } from 'lucide-react';
+import { ArrowRight, Sparkles, Trophy } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext.jsx';
 import Countdown from '../Countdown/Countdown.jsx';
 import heroGiftBox from '../../assets/hero-gift-box.webp';
 import heroTicket from '../../assets/hero-ticket.webp';
 import styles from './GiveawayHero.module.css';
 
 export const GiveawayHero = ({ giveaway, onScrollToPrizes, onScrollToHowItWorks }) => {
+  const { isParticipating } = useAuth();
   if (!giveaway) return null;
 
   const isLive = giveaway.status === 'ACTIVE';
   const isEnded = giveaway.status === 'ENDED';
   const isUpcoming = giveaway.status === 'UPCOMING';
+  const isJoined = Boolean(isParticipating);
 
   return (
     <section className={styles.heroSection}>
@@ -47,7 +50,13 @@ export const GiveawayHero = ({ giveaway, onScrollToPrizes, onScrollToHowItWorks 
                     className="btn-veloop-primary"
                     onClick={onScrollToPrizes}
                   >
-                    <span>{isEnded ? 'View Winners & Prizes' : 'Enter Giveaway'}</span>
+                    <span>
+                      {isEnded
+                        ? 'View Winners & Prizes'
+                        : isJoined
+                        ? '✓ Giveaway Joined – View Prizes'
+                        : 'Enter Giveaway'}
+                    </span>
                     <ArrowRight size={18} />
                   </button>
 

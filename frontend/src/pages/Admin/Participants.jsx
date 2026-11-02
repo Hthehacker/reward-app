@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { UserCheck, ShieldCheck, AlertTriangle } from 'lucide-react';
 import { api } from '../../services/api.js';
 import styles from './Giveaways.module.css';
 

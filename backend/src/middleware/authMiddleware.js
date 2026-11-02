@@ -26,9 +26,9 @@ export const protect = async (req, res, next) => {
       token = req.headers.authorization.split(' ')[1];
     }
 
-    // 3. Dev header for automated tests (non‑prod only, cannot give admin rights)
+    // 3. Dev header for automated tests (demo mode and non‑prod only, strictly cannot give admin rights)
     const devUserId = req.headers['x-user-id'];
-    if (!token && devUserId && process.env.NODE_ENV !== 'production') {
+    if (!token && devUserId && process.env.NODE_ENV !== 'production' && process.env.DEMO_MODE === 'true') {
       const user = await User.findOne({ userId: devUserId });
       if (user && user.role !== 'admin') {
         req.user = user;
@@ -83,7 +83,7 @@ export const optionalAuth = async (req, res, next) => {
       const decoded = jwt.verify(token, secret);
       const user = await User.findById(decoded.id).select('-password');
       if (user) req.user = user;
-    } else if (devUserId && process.env.NODE_ENV !== 'production') {
+    } else if (devUserId && process.env.NODE_ENV !== 'production' && process.env.DEMO_MODE === 'true') {
       const user = await User.findOne({ userId: devUserId });
       if (user && user.role !== 'admin') req.user = user;
     }

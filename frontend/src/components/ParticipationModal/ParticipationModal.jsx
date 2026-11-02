@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, Sparkles, CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { api } from '../../services/api.js';
 import styles from './ParticipationModal.module.css';
@@ -11,18 +11,28 @@ export const ParticipationModal = ({
   prize,
   currentBalance,
   currencyLabel,
+  isAlreadyParticipating = false,
   onJoinSuccess
 }) => {
-  if (!isOpen || !prize) return null;
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successData, setSuccessData] = useState(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setError(null);
+      setLoading(false);
+      setSuccessData(null);
+    }
+  }, [isOpen]);
+
+  if (!isOpen || !prize) return null;
 
   const entryFee = prize.entryFee || 0;
   const balanceAfter = Math.max(0, currentBalance - entryFee);
 
   const handleConfirm = async () => {
+    if (loading || isAlreadyParticipating) return;
     setError(null);
     setLoading(true);
 
@@ -30,15 +40,23 @@ export const ParticipationModal = ({
       const res = await api.joinGiveaway(giveawayId, prize.prizeId);
 
       // Trigger celebratory reward confetti (subtle, restrained)
-      confetti({
-        particleCount: 50,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ['#38bdf8', '#6366f1', '#f59e0b', '#10b981']
-      });
+      try {
+        confetti({
+          particleCount: 50,
+          spread: 60,
+          origin: { y: 0.6 },
+          colors: ['#38bdf8', '#6366f1', '#f59e0b', '#10b981']
+        });
+      } catch {
+        // Fallback handled
+      }
 
       setSuccessData(res.data);
-      if (onJoinSuccess) onJoinSuccess(res.data);
+      if (onJoinSuccess) {
+        onJoinSuccess(res.data);
+      } else if (onClose) {
+        onClose();
+      }
     } catch (err) {
       setError(err.message || 'Participation request failed.');
     } finally {
@@ -112,6 +130,12 @@ export const ParticipationModal = ({
               </div>
             )}
 
+            {isAlreadyParticipating && (
+              <div className="alert alert-info py-2 mb-3" style={{ fontSize: '0.85rem' }}>
+                You're already participating in this giveaway!
+              </div>
+            )}
+
             <div className={styles.ledgerBox}>
               <div className={styles.ledgerRow}>
                 <span className={styles.label}>Entry Fee:</span>
@@ -155,13 +179,15 @@ export const ParticipationModal = ({
                 type="button"
                 className={styles.confirmBtn}
                 onClick={handleConfirm}
-                disabled={loading}
+                disabled={loading || isAlreadyParticipating}
               >
                 {loading ? (
                   <>
                     <Loader2 size={16} className="spinner-border spinner-border-sm" />
                     <span>Joining Giveaway...</span>
                   </>
+                ) : isAlreadyParticipating ? (
+                  <span>Already Joined</span>
                 ) : (
                   <span>Confirm & Join</span>
                 )}
