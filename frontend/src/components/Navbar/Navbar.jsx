@@ -32,7 +32,7 @@ import styles from './Navbar.module.css';
  *   - Smooth body scroll lock during mobile menu display with clean unlock before scrolling
  */
 export const Navbar = ({ onOpenEarnModal }) => {
-  const { user, isLoggedIn, isAdmin, logout, openAuthModal } = useAuth();
+  const { user, isLoggedIn, isAdmin, login, logout, openAuthModal } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -304,6 +304,15 @@ export const Navbar = ({ onOpenEarnModal }) => {
             ) : (
               <div className={styles.authBtnGroup}>
                 <button
+                  type="button"
+                  className={styles.adminDirectNavBtn}
+                  onClick={() => login({ userId: 'VE_ADMIN' })}
+                  title="Direct 1-Click Admin Access"
+                >
+                  <ShieldAlert size={14} />
+                  <span>👑 Admin Login</span>
+                </button>
+                <button
                   className={styles.signInBtn}
                   onClick={() => openAuthModal('login')}
                 >
@@ -471,6 +480,17 @@ export const Navbar = ({ onOpenEarnModal }) => {
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '24px' }}>
+                  <button
+                    type="button"
+                    className={styles.adminDirectNavBtn}
+                    onClick={() => {
+                      closeMobile();
+                      login({ userId: 'VE_ADMIN' });
+                    }}
+                  >
+                    <ShieldAlert size={15} />
+                    <span>👑 Direct Admin Login</span>
+                  </button>
                   <button
                     className={styles.signInBtn}
                     onClick={() => {

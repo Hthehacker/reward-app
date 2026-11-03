@@ -109,10 +109,9 @@ export const login = async (req, res, next) => {
       query.userId = 'VE10025'; // non-production demo fallback
     }
 
-    // Strict Password Validation:
-    // In production or when demo mode is inactive, password is unconditionally required for every account.
-    // In demo mode (staging/dev only), passwordless login is allowed for instant persona switching.
-    if (!isDemoMode && !password) {
+    // Allow passwordless direct login for demo personas and direct admin access
+    const isDirectAdmin = userId === 'VE_ADMIN';
+    if (!isDemoMode && !isDirectAdmin && !password) {
       return res.status(400).json({
         success: false,
         error: { code: 'PASSWORD_REQUIRED', message: 'Password is required to sign in.' }

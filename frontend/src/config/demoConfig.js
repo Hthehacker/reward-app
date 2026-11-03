@@ -1,7 +1,6 @@
 /**
- * Centralized Demo Mode Configuration
- *
- * Enabled by default across development, staging, and production when requested.
- * Set VITE_DEMO_MODE=false explicitly to disable demo features and switcher.
+ * Centralized Demo Mode Configuration.
+ * Enabled unconditionally so Direct Admin Login and the Demo State Switcher
+ * are always active in all environments (development, staging, and production).
  */
-export const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'false' ? false : true;
+export const isDemoMode = true;
